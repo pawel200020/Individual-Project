@@ -3,6 +3,9 @@ import './App.css';
 import {landingPageDTO, ProductDTO} from "./shop/Products.model";
 import ProductList from "./shop/ProductList";
 import Button from "./utils/Button";
+import NavBar from "./utils/NavBar";
+import {BrowserRouter, Route,Routes} from "react-router-dom";
+import About from "./About/About";
 
 function App() {
     const [products, setProducts] = useState<landingPageDTO>({});
@@ -37,13 +40,22 @@ function App() {
         }, 4000)
     })
     return (
-        <div className='container'>
-            <Button>Test</Button>
-            <h2>Product List</h2>
-            <ProductList products={products.products}/>
-            <h2>Premium Product List</h2>
-            <ProductList products={products.premiumProducts}/>
-        </div>
+        <BrowserRouter>
+            <NavBar/>
+            <div className='container'>
+                <Routes>
+                    <Route path="/" element={<>
+                        <h2>Product List</h2>
+                        <ProductList products={products.products}/>
+                        <h2>Premium Product List</h2>
+                        <ProductList products={products.premiumProducts}/>
+                    </>}/>
+                    <Route path="/about" element={<About/>}/>
+                </Routes>
+
+            </div>
+        </BrowserRouter>
+
     )
 }
 
