@@ -2,7 +2,7 @@ import ProductList from "./ProductList";
 import products, {landingPageDTO} from './Products.model';
 import React, {useEffect, useState} from "react";
 
-export default function LandingPage() {
+export default function Shop() {
     const [products, setProducts] = useState<landingPageDTO>({});
     useEffect(() => {
         const timerId = setTimeout(() => {
