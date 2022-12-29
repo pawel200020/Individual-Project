@@ -21,6 +21,11 @@ function App() {
                 </Routes>
 
             </div>
+            {/*<footer className='bd-footer py-3 mt-3 bg-light fixed-bottom'>*/}
+            {/*    <div className='container'>*/}
+            {/*        Online Shop System {new Date().getFullYear().toString()}*/}
+            {/*    </div>*/}
+            {/*</footer>*/}
         </BrowserRouter>
 
     )

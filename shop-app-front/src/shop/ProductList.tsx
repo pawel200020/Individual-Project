@@ -1,7 +1,6 @@
 import {ProductDTO} from "./Products.model";
 import SingleProduct from "./SingleProduct";
 import css from "./ProductList.module.css"
-import Loading from "../utils/Loading";
 import GenericList from "../utils/GenericList";
 import {Link} from "react-router-dom";
 

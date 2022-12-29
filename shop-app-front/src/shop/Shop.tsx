@@ -11,24 +11,28 @@ export default function Shop() {
                     ID: 1,
                     title: "t-shirt",
                     price: 99.58,
-                    image: "shirt.jpg"
+                    image: "shirt.jpg",
+                    quantity: 11
                 }, {
                     ID: 2,
                     title: "Jeans",
                     price: 21.37,
-                    image: "shirt.jpg"
+                    image: "shirt.jpg",
+                    quantity: 11
                 }
                 ],
                 premiumProducts: [{
                     ID: 1,
                     title: "t-shirt",
                     price: 99.58,
-                    image: "shirt.jpg"
+                    image: "shirt.jpg",
+                    quantity: 13
                 }, {
                     ID: 2,
                     title: "Jeans",
                     price: 21.37,
-                    image: "shirt.jpg"
+                    image: "shirt.jpg",
+                    quantity: 16
                 }
                 ]
             })
