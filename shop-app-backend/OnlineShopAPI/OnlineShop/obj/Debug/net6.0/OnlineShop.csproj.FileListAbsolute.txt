@@ -25,3 +25,10 @@ D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\obj\Debu
 D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\obj\Debug\net6.0\OnlineShop.pdb
 D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\obj\Debug\net6.0\OnlineShop.genruntimeconfig.cache
 D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\obj\Debug\net6.0\ref\OnlineShop.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
