@@ -8,7 +8,7 @@ export default function CategoryForm(props: categoryFormProps) {
     return (<Formik initialValues={props.model}
                     onSubmit={props.onSubmit}
                     validationSchema={Yup.object({
-                        name: Yup.string().required('this field is required').firstUppercase()
+                        name: Yup.string().required('this field is required').max(50,'max length is 50 characters').firstUppercase()
                     })
                     }
     >

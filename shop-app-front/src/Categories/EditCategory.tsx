@@ -1,17 +1,16 @@
-import {useParams} from "react-router-dom";
+
 import CategoryForm from "./CategoryForm";
+import EditEntity from "../utils/EditEntity";
+import {categoryCreationDTO, categoryDTO} from "./Category.model.t";
+import {urlCategories} from "../endpoints";
 
 export default function EditCategory() {
-    const {id}: any = useParams();
     return (
         <>
-            <h3>Edit Category</h3>
-            <CategoryForm model={{name: ''}}
-                          onSubmit={(val) => {
-                              console.log(val);
-                              console.log(id);
-                          }
-                          }/>
+           <EditEntity<categoryCreationDTO,categoryDTO> entityName="Categories" url={urlCategories} indexUrl='/Categories/Index'>
+               {(entity, edit) =>
+                    <CategoryForm model={entity} onSubmit={async value =>{await edit(value);}}/>
+           }</EditEntity>
         </>
     )
 }
