@@ -4,6 +4,7 @@ using OnlineShop;
 using OnlineShop.APIBehavior;
 using OnlineShop.Entities;
 using OnlineShop.Filters;
+using OnlineShop.Helpers;
 using OnlineShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
 {
@@ -48,6 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthentication();
 

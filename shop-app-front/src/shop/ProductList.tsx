@@ -11,7 +11,7 @@ export default function ProductList(props: ProductListProps) {
             <Link className='btn btn-primary' to='/Shop/Create'>Create Product</Link>
             <GenericList list={props.products}>
                 <div className={css.div}>
-                    {props.products?.map(product => <SingleProduct {...product} key={product.ID}/>)}
+                    {props.products?.map(product => <SingleProduct {...product} key={product.id}/>)}
                 </div>
             </GenericList>
         </>)

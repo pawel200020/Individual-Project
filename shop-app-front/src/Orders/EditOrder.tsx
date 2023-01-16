@@ -6,7 +6,7 @@ export default function EditOrder() {
     return (
         <>
             <h3>Edit Category</h3>
-            <CategoryForm model={{name: '', products:'' }}
+            <CategoryForm model={{name: '',products: []}}
                           selectedProducts={[]}
                           onSubmit={(val) => {
                               console.log(val);

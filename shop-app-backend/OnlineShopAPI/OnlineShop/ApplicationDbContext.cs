@@ -27,6 +27,18 @@ namespace OnlineShop
                 return new ApplicationDbContext(optionsBuilder.Options);
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrdersProducts>().HasKey(p => new {p.OrderId, p.ProductId});
+            modelBuilder.Entity<ProductsCategories>().HasKey(p => new {p.CategoryId, p.ProductId});
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<OrdersProducts> OrdersProducts { get; set; }
+        public DbSet<ProductsCategories> ProductsCategories { get; set; }
     }
 }

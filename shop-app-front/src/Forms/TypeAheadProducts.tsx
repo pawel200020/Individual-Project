@@ -1,44 +1,40 @@
 import {productsOrderDTO} from "../shop/Products.model";
-import {Typeahead} from "react-bootstrap-typeahead";
+import {AsyncTypeahead, Typeahead} from "react-bootstrap-typeahead";
 import NumberField from "./NumberField";
-import {ReactElement} from "react";
+import {ReactElement, useState} from "react";
+import axios, {AxiosResponse} from "axios";
+import {urlProducts} from "../endpoints";
 
 export default function TypeAheadProducts(props: typeAheadProductProps) {
 
-    const products: productsOrderDTO[] = [
-        {
-            id: 1,
-            name: "t-shirt",
-            quantity: 3,
-            picture: "https://img01.ztat.net/article/spp-media-p1/fb9d37c0a73a3de99b1c96124eecebbd/4e9535852a4e4c3fad5f4a01b45fbae7.jpg?imwidth=762"
-        },
-        {
-            id: 2,
-            name: "hoodie",
-            quantity: 2,
-            picture: "https://inrablew.pl/wp-content/uploads/2022/02/INRABLEW-GREY-BOXY-HOODIE.jpg"
-        },
-        {
-            id: 3,
-            name: "jeans",
-            quantity: 4,
-            picture: "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F0b%2F55%2F0b5578deeeca8accdb4df772021df564b4104c95.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D"
-        }
-    ]
     const selected: productsOrderDTO[] = [] //cleanup textbox after click
+    const [products,setProducts] = useState<productsOrderDTO[]>([])
+    const [isLoading, setIsLoading] = useState(false);
+    function handleSearch(query: string){
+        setIsLoading(true)
+        axios.get(`${urlProducts}/searchByName/${query}`)
+            .then((response: AxiosResponse<productsOrderDTO[]>)=>{
+                setProducts(response.data);
+                setIsLoading(false);
+            })
+    }
     return (
         <div className='mb-3'>
             <label>{props.displayName}</label>
-            <Typeahead
+            <AsyncTypeahead
                 id='typeahead'
                 onChange={product => {
-                    if (props.products.findIndex((x => x.id === product[0].id))===-1)
+                    if (props.products.findIndex((x => x.id === product[0].id))===-1){
+                        products[0].quantity = 1
                         props.onAdd([...props.products, product[0]])
-                    console.log(product)
+                    }
+
                 }}
                 options={products}
                 labelKey={product => product.name}
-                filterBy={['name']}
+                filterBy={()=> true}
+                isLoading={isLoading}
+                onSearch={handleSearch}
                 placeholder={"Write a product name"}
                 minLength={1}
                 flip={true}

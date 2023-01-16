@@ -83,3 +83,8 @@ D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debu
 D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\AutoMapper.dll
 D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\OnlineShop.staticwebassets.runtime.json
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Azure.Storage.Common.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\System.IO.Hashing.dll
+D:\Code\UJ\Individual-Project\shop-app-backend\OnlineShopAPI\OnlineShop\bin\Debug\net6.0\Newtonsoft.Json.dll

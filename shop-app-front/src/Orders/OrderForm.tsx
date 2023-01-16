@@ -12,7 +12,10 @@ import input = Simulate.input;
 export default function OrderForm(props: orderFormProps) {
     const [selectedProduct, setSelectedProduct] = useState(props.selectedProducts);
     return (<Formik initialValues={props.model}
-                    onSubmit={props.onSubmit}
+                    onSubmit={(values, actions)=>{
+                        values.products = selectedProduct;
+                        props.onSubmit(values,actions);
+                    }}
                     validationSchema={Yup.object({
                         name: Yup.string().required('this field is required')
                     })
@@ -27,7 +30,7 @@ export default function OrderForm(props: orderFormProps) {
                         {product.name}
                         <input placeholder='Quantity' type='number' value={product.quantity}
                                               onChange={e => {
-                                                  const index = selectedProduct.findIndex(x => x.id == product.id)
+                                                  const index = selectedProduct.findIndex(x => x.id === product.id)
                                                   const products = [...selectedProduct]
                                                   products[index].quantity = parseInt(e.currentTarget.value);
                                                   setSelectedProduct(products)
@@ -37,7 +40,7 @@ export default function OrderForm(props: orderFormProps) {
                     </>
                 }
                 onRemove={product => {
-                    const products = selectedProduct.filter(x=>x != product)
+                    const products = selectedProduct.filter(x=>x !== product)
                     setSelectedProduct(products);
                 }
                 }/>

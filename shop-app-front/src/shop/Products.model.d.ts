@@ -1,9 +1,14 @@
+import {categoryDTO} from "../Categories/Category.model.t";
+
 export interface ProductDTO{
-    ID: number;
-    title: string;
+    id: number;
+    name: string;
+    isAvailable: boolean;
     price: number;
+    manufactureDate?: Date;
     quantity: number;
-    image: string;
+    caption?: string;
+    picture: string;
 }
 export interface ProductCreationDTO{
     name: string;
@@ -27,4 +32,7 @@ export interface productsOrderDTO{
     quantity: number;
     picture: string;
 
+}
+export interface productsPostGetDTO{
+    categories: categoryDTO[];
 }

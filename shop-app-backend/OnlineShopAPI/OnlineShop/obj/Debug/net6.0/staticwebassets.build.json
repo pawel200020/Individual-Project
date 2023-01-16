@@ -1,11 +1,105 @@
 {
   "Version": 1,
-  "Hash": "E4wgakKJqhBi64WpSdm7egZz1mUFQi4HJZ2ZU8jhhZY=",
+  "Hash": "X2GVpgk3mq8FoHwWJEIYwmRlMkSvIShtcTV9FzLTlDE=",
   "Source": "OnlineShop",
   "BasePath": "_content/OnlineShop",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "OnlineShop\\wwwroot",
+      "Source": "OnlineShop",
+      "ContentRoot": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\",
+      "BasePath": "_content/OnlineShop",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\products\\0e3a0abf-f13e-4a55-864b-3191e2163f55.jpg",
+      "SourceId": "OnlineShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\",
+      "BasePath": "_content/OnlineShop",
+      "RelativePath": "products/0e3a0abf-f13e-4a55-864b-3191e2163f55.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\0e3a0abf-f13e-4a55-864b-3191e2163f55.jpg"
+    },
+    {
+      "Identity": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\products\\4a4ffc1a-56cc-454e-81b6-f8c2ccee9c88.jpg",
+      "SourceId": "OnlineShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\",
+      "BasePath": "_content/OnlineShop",
+      "RelativePath": "products/4a4ffc1a-56cc-454e-81b6-f8c2ccee9c88.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\4a4ffc1a-56cc-454e-81b6-f8c2ccee9c88.jpg"
+    },
+    {
+      "Identity": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\products\\7222f0bf-ffb3-4a70-8ee3-eb5c1c75d628.jpg",
+      "SourceId": "OnlineShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\",
+      "BasePath": "_content/OnlineShop",
+      "RelativePath": "products/7222f0bf-ffb3-4a70-8ee3-eb5c1c75d628.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\7222f0bf-ffb3-4a70-8ee3-eb5c1c75d628.jpg"
+    },
+    {
+      "Identity": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\products\\aedab867-6ced-4e1d-886e-4ad754879ea9.jpg",
+      "SourceId": "OnlineShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\",
+      "BasePath": "_content/OnlineShop",
+      "RelativePath": "products/aedab867-6ced-4e1d-886e-4ad754879ea9.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\aedab867-6ced-4e1d-886e-4ad754879ea9.jpg"
+    },
+    {
+      "Identity": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\products\\fb28674e-e5b2-4c6c-8bef-3fdaaf50f399.jpg",
+      "SourceId": "OnlineShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Code\\UJ\\Individual-Project\\shop-app-backend\\OnlineShopAPI\\OnlineShop\\wwwroot\\",
+      "BasePath": "_content/OnlineShop",
+      "RelativePath": "products/fb28674e-e5b2-4c6c-8bef-3fdaaf50f399.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\products\\fb28674e-e5b2-4c6c-8bef-3fdaaf50f399.jpg"
+    }
+  ]
 }
