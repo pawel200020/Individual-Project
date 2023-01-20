@@ -14,7 +14,7 @@ export default  function GenericList (props: genericListProps){
             return props.emptyListUI;
         }
         else{
-            return <>Empty list</>
+            return <><i>There is not any product corresponding to your search criteria</i></>
         }
     }
     else{

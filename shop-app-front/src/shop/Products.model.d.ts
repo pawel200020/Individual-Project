@@ -1,6 +1,6 @@
 import {categoryDTO} from "../Categories/Category.model.t";
 
-export interface ProductDTO{
+export interface ProductDTOIndex {
     id: number;
     name: string;
     isAvailable: boolean;
@@ -10,11 +10,24 @@ export interface ProductDTO{
     caption?: string;
     picture: string;
 }
+
+export interface ProductDTO{
+    id: number;
+    name: string;
+    price?: number;
+    quantity?: number;
+    isAvalible: boolean;
+    manufactureDate?: Date;
+    picture?: string;
+    pictureUrl?: string;
+    caption?: string;
+    category?: categoryDTO[];
+}
 export interface ProductCreationDTO{
     name: string;
     price?: number;
     quantity?: number;
-    isAvailable: boolean;
+    IsAvalible: boolean;
     manufactureDate?: Date;
     picture?: File;
     pictureUrl?: string;
@@ -22,8 +35,8 @@ export interface ProductCreationDTO{
     categoriesIds?: number[];
 }
 export interface landingPageDTO{
-    products?: ProductDTO[];
-    premiumProducts?: ProductDTO[];
+    products?: ProductDTOIndex[];
+    premiumProducts?: ProductDTOIndex[];
 }
 
 export interface productsOrderDTO{
@@ -35,4 +48,10 @@ export interface productsOrderDTO{
 }
 export interface productsPostGetDTO{
     categories: categoryDTO[];
+}
+
+export interface productPutGetDTO{
+    product: ProductDTO;
+    selectedCategories: categoryDTO[];
+    nonSelectedCategories: categoryDTO[];
 }

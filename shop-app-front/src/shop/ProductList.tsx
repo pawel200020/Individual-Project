@@ -1,4 +1,4 @@
-import {ProductDTO} from "./Products.model";
+import {ProductDTO, ProductDTOIndex} from "./Products.model";
 import SingleProduct from "./SingleProduct";
 import css from "./ProductList.module.css"
 import GenericList from "../utils/GenericList";
@@ -8,7 +8,7 @@ export default function ProductList(props: ProductListProps) {
 
     return (
         <>
-            <Link className='btn btn-primary' to='/Shop/Create'>Create Product</Link>
+            {/*<Link className='btn btn-primary' to='/Shop/Create'>Create Product</Link>*/}
             <GenericList list={props.products}>
                 <div className={css.div}>
                     {props.products?.map(product => <SingleProduct {...product} key={product.id}/>)}
@@ -19,5 +19,5 @@ export default function ProductList(props: ProductListProps) {
 }
 
 interface ProductListProps {
-    products?: ProductDTO[];
+    products?: ProductDTOIndex[];
 }

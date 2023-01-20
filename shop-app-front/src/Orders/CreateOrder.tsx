@@ -37,7 +37,7 @@ export default function CreateOrder() {
         <>
             <h3>Create Order</h3>
             <DisplayErrors errors={errors}/>
-            <OrderForm model={{name: '', products:[]}}
+            <OrderForm model={{name: ''}}
                        selectedProducts={[]}
                        onSubmit={async val => {
                           await create(val);

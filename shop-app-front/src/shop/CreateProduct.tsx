@@ -46,7 +46,7 @@ export default function CreateProduct(){
                 <>
                     <DisplayErrors errors={errors}/>
                     <ProductForm model={
-                        {name: '', manufactureDate: undefined, isAvailable: true}}
+                        {name: '', manufactureDate: undefined, IsAvalible: true}}
                                  onSubmit={async values=>await create(values)}
                                  nonSelectedCategories={nonSelectedCategories}
                                  selectedCategories={[]}/>

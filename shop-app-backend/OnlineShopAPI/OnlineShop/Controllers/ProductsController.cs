@@ -9,7 +9,7 @@ namespace OnlineShop.Controllers
 {
     [Route("api/products")]
     [ApiController]
-    public class ProductsController :ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -33,8 +33,9 @@ namespace OnlineShop.Controllers
 
             return await _context.Products.Where(x => x.Name
                 .Contains(query))
+                .Where(x=>x.IsAvalible)
                 .OrderBy(x => x.Name)
-                .Select(x => new ProductsOrdersDTO {Id = x.Id, Name = x.Name, Picture = x.Picture})
+                .Select(x => new ProductsOrdersDTO { Id = x.Id, Name = x.Name, Picture = x.Picture })
                 .Take(5)
                 .ToListAsync();
         }
@@ -46,22 +47,50 @@ namespace OnlineShop.Controllers
             var categories = await _context.Categories.ToListAsync();
             var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categories);
 
-            return new ProductPostGetDTO() {Categories = categoriesDTO};
+            return new ProductPostGetDTO() { Categories = categoriesDTO };
         }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<ProductDTO>>> Filter([FromQuery] FilterProductsDTO filterProductsDto)
+        {
+            var productsQueryable = _context.Products.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(filterProductsDto.Name))
+            {
+                productsQueryable = productsQueryable.Where(x => x.Name.Contains(filterProductsDto.Name));
+            }
+
+            if (filterProductsDto.isAvalible)
+            {
+                productsQueryable = productsQueryable.Where(x => x.IsAvalible);
+            }
+
+            if (filterProductsDto.CategoryId != -1)
+            {
+                productsQueryable = productsQueryable
+                    .Where(x => x.ProductsCategories.Select(y => y.CategoryId)
+                        .Contains(filterProductsDto.CategoryId));
+            }
+
+            await HttpContext.InsertParamtersPanginationInHeader(productsQueryable);
+            var products = await productsQueryable.OrderBy(x => x.Name).Paginate(filterProductsDto.PaginationDTO)
+                .ToListAsync();
+            return _mapper.Map<List<ProductDTO>>(products);
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<ProductDTO>>> Get([FromQuery] PaginationDTO paginationDto)
         {
 
             var queryable = _context.Products.AsQueryable();
             await HttpContext.InsertParamtersPanginationInHeader(queryable);
-            var products = await queryable.OrderBy(x => x.Name).Paginate(paginationDto).ToListAsync();  
+            var products = await queryable.OrderBy(x => x.Name).Paginate(paginationDto).ToListAsync();
             return _mapper.Map<List<ProductDTO>>(products);
         }
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ProductDTO>> Get(int id)
         {
             var product = await _context.Products
-                .Include(x=>x.ProductsCategories).ThenInclude(x=>x.Category)
+                .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (product == null) return NotFound();
             return _mapper.Map<ProductDTO>(product);
@@ -79,10 +108,50 @@ namespace OnlineShop.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        [HttpPut]
-        public async Task<ActionResult> Put([FromBody] ProductCreationDTO productCreationDto)
+        [HttpGet("putget/{id:int}")]
+
+        public async Task<ActionResult<ProductPutGetDTO>> PutGet(int id)
         {
-            throw new NotImplementedException();
+            var productActionResult = await Get(id);
+            if (productActionResult is NotFoundResult) return NotFound();
+
+            var product = productActionResult.Value;
+            var categoriesSelectedIds = product.Category.Select(x => x.Id).ToList();
+            var nonSelectedCategories = _mapper.Map<List<CategoryDTO>>(await _context.Categories.Where(x => !categoriesSelectedIds.Contains(x.Id)).ToListAsync());
+
+            var response = new ProductPutGetDTO();
+            response.Product = product;
+            response.NonSelectedCategories = nonSelectedCategories;
+            response.SelectedCategories = _mapper.Map<List<CategoryDTO>>(await _context.Categories.Where(x => categoriesSelectedIds.Contains(x.Id)).ToListAsync());
+
+            return response;
+
+        }
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, [FromForm] ProductCreationDTO productCreationDto)
+        {
+            var product = await _context.Products
+                .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (product == null) return NotFound();
+            product = _mapper.Map(productCreationDto, product);
+            if (productCreationDto.Picture != null)
+            {
+                product.Picture = await _fileStorageService.SaveFile(_containerName, productCreationDto.Picture);
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+
+            return NoContent();
+
+
         }
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)

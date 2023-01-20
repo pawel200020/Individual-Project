@@ -1,14 +1,14 @@
 import {Link} from "react-router-dom";
-import {ProductDTO} from "../shop/Products.model";
+import {ProductDTOIndex} from "../shop/Products.model";
 import {urlOrders, urlProducts} from "../endpoints";
-import IndexEntity from "../utils/IndexEntity";
+import IndexEntity2 from "../utils/IndexEntity2";
 import React from "react";
-import {orderDTO} from "./Order.model.t";
+import {orderDTOIndex} from "./Order.model.t";
 
 export default function OrdersIndex(){
     return(
         <>
-            <IndexEntity<orderDTO> url={urlOrders} entityName="Product" createUrl={'/Orders/Create'} title="Orders">
+            <IndexEntity2<orderDTOIndex> url={urlOrders} entityName="Order" createUrl={'/Orders/Create'} title="Orders">
                 {(orders,buttons)=>
                     <>
                         <thead>
@@ -18,17 +18,18 @@ export default function OrdersIndex(){
                         </tr>
                         </thead>
                         <tbody>
-                        {orders?.map(product=> <tr key={product.id}>
+                        {orders?.map(order=> <tr key={order.id}>
                             <td>
-                                {buttons(`Shop/Edit/${product.id}`,product.id)}
+                                {buttons(`Shop/Edit/${order.id}`,order.id)}
                             </td>
+
                             <td>
-                                {product.name}
+                                <Link to={`/Orders/${order.id}`}>{order.name}</Link>
                             </td>
                         </tr>)}
                         </tbody>
                     </>}
-            </IndexEntity>
+            </IndexEntity2>
         </>
     )
 }

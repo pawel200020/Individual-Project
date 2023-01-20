@@ -4,7 +4,7 @@ import {orderCreationDTO} from "../Orders/Order.model.t";
 export function convertProductToFormData (product: ProductCreationDTO): FormData{
     const formData = new FormData();
     formData.append('name',product.name);
-    formData.append('isAvailable',  JSON.stringify( product.isAvailable));
+    formData.append('IsAvalible',  JSON.stringify( product.IsAvalible));
     formData.append('quantity',  JSON.stringify( product.quantity));
     formData.append('price',JSON.stringify( product.price))
     if(product.caption){

@@ -37,6 +37,15 @@ namespace OnlineShop.Controllers
             return _mapper.Map<List<CategoryDTO>>(categories);
         }
 
+        [HttpGet("all")]
+        public async Task<ActionResult<List<CategoryDTO>>> Get()
+        {
+            _logger.LogInformation("Getting all categories");
+            var categories = await _context.Categories.OrderBy(x => x.Name).ToListAsync();
+            return _mapper.Map<List<CategoryDTO>>(categories);
+        }
+
+
         [HttpGet("{Id:int}")]
         public async Task<ActionResult<CategoryDTO>> Get(int Id)
         {

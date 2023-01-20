@@ -29,7 +29,7 @@ export default function ProductForm(props: productsFormProps) {
              props.onSubmit(values, actions)
             }}
             validationSchema={Yup.object({
-                manufactureDate: Yup.date().required("this field is required"),
+                // manufactureDate: Yup.date().required("this field is required"),
                 name: Yup.string().required("this field is required"),
                 quantity: Yup.number().required("this field is required").min(1),
                 price: Yup.number().required("this field is required").min(1),
@@ -38,10 +38,10 @@ export default function ProductForm(props: productsFormProps) {
             {(formikProps)=>(
                 <Form>
                     <TextField field="name" displayName="Name"/>
-                    <CheckboxField displayName="is Available" field="isAvailable"/>
+                    <CheckboxField displayName="is Available" field="IsAvalible"/>
                     <NumberField field='price' displayName='Price'/>
                     <NumberField field='quantity' displayName='Quantity'/>
-                    <DateField field='manufactureDate' displayName='Manufacture Date'/>
+                    {/*<DateField field='manufactureDate' displayName='Manufacture Date'/>*/}
                     <ImageField displayName="Picture" filed="picture" imageUrl={props.model.pictureUrl}/>
                     <MarkdownField displayName="Caption of a product" field="caption"/>
                     <MultipleSelector displayName="Category" selected={selectedCategories} nonSelected={nonSelectedCategories} onChange={(selected,nonSelected)=>{

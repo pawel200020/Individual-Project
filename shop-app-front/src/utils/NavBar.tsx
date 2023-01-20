@@ -25,7 +25,7 @@ export default function NavBar(){
                                 <NavLink className="nav-link" to="/Categories/Index">Categories</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/Orders/Index">Orders</NavLink>
+                                <NavLink className="nav-link" to="/Orders">Orders</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/Shop/Filter">Filter</NavLink>

@@ -2,9 +2,16 @@ import {productsOrderDTO} from "../shop/Products.model";
 
 export interface orderCreationDTO{
     name: string;
-    products: productsOrderDTO[];
+    products?: productsOrderDTO[];
 }
-export interface orderDTO{ //future search and filter
+export interface orderDTOIndex { //future search and filter
     id: number;
     name: string;
+}
+export interface orderDTO{
+    id: number;
+    name: string;
+    value: number;
+    ordersProducts: productsOrderDTO[];
+
 }
