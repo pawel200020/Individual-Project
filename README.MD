@@ -3,15 +3,13 @@
 ### Overview:
 Simple web application which represents shop application, including:
 - Ordering
-- User Accounts - admins, sellers, clients
-- Admin panel
-- Ordering delivery
-- User Panel
-- User Card
+- Products
+- Product categories
 ### Technologies: 
 - C#, .NET
 - SQL - data gathering
 - ISS Express - deployment
+- React - Frontend
 ### IDE
 - Visual studio
 ### SQL database management
