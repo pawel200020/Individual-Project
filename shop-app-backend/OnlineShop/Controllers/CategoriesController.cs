@@ -7,6 +7,7 @@ using OnlineShop.DTO;
 using OnlineShop.Entities;
 using OnlineShop.Filters;
 using OnlineShop.Helpers;
+using ViewModels.Shop.Categories;
 
 namespace OnlineShop.Controllers
 {
@@ -28,52 +29,52 @@ namespace OnlineShop.Controllers
         [HttpGet]
         //      [HttpGet("list")]
         //      [ResponseCache(Duration = 60)]
-        public async Task<ActionResult<List<CategoryDTO>>> Get([FromQuery] PaginationDTO paginationDto)
+        public async Task<ActionResult<List<CategoryViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
             _logger.LogInformation("Getting all categories");
             var queryable = _context.Categories.AsQueryable();
             await HttpContext.InsertParamtersPanginationInHeader(queryable);
-            var categories = await queryable.OrderBy(x => x.Name).Paginate(paginationDto).ToListAsync();
-            return _mapper.Map<List<CategoryDTO>>(categories);
+            var categories = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
+            return _mapper.Map<List<CategoryViewModel>>(categories);
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<CategoryDTO>>> Get()
+        public async Task<ActionResult<List<CategoryViewModel>>> Get()
         {
             _logger.LogInformation("Getting all categories");
             var categories = await _context.Categories.OrderBy(x => x.Name).ToListAsync();
-            return _mapper.Map<List<CategoryDTO>>(categories);
+            return _mapper.Map<List<CategoryViewModel>>(categories);
         }
 
 
         [HttpGet("{Id:int}")]
-        public async Task<ActionResult<CategoryDTO>> Get(int Id)
+        public async Task<ActionResult<CategoryViewModel>> Get(int Id)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == Id);
             if (category == null)
                 return NotFound();
             else
             {
-                return _mapper.Map<CategoryDTO>(category);
+                return _mapper.Map<CategoryViewModel>(category);
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CategoryCreationDTO categoryCretationDTO)
+        public async Task<ActionResult> Post([FromBody] CategoryCreationViewModel categoryCretationViewModel)
         {
-            var category = _mapper.Map<Category>(categoryCretationDTO);
+            var category = _mapper.Map<Category>(categoryCretationViewModel);
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpPut("{Id:int}")]
-        public async Task<ActionResult> Put(int id, [FromBody] CategoryCreationDTO categoryDto)
+        public async Task<ActionResult> Put(int id, [FromBody] CategoryCreationViewModel categoryViewModel)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category == null)
                 return NotFound();
-            category = _mapper.Map(categoryDto, category);
+            category = _mapper.Map(categoryViewModel, category);
             await _context.SaveChangesAsync();
             return NoContent();
         }

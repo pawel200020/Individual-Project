@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using OnlineShop.Validation;
+using ViewModels.Validation;
 
-namespace OnlineShop.DTO
+namespace ViewModels.Shop.Categories
 {
-    public class CategoryCreationDTO
+    public class CategoryCreationViewModel
     {
+
         [Required(ErrorMessage = "This field with name {0} required")]
         [StringLength(50)]
         [FirstLetterUppercase]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

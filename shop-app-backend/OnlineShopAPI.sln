@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop-Portal", "OnlineShop\Shop-Portal.csproj", "{920EA619-171D-4561-8DCE-ABEA3385CDFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels", "ViewModels\ViewModels.csproj", "{A121E9AA-07AF-4FA1-9A07-0997D9E3768A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{920EA619-171D-4561-8DCE-ABEA3385CDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{920EA619-171D-4561-8DCE-ABEA3385CDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{920EA619-171D-4561-8DCE-ABEA3385CDFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A121E9AA-07AF-4FA1-9A07-0997D9E3768A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A121E9AA-07AF-4FA1-9A07-0997D9E3768A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A121E9AA-07AF-4FA1-9A07-0997D9E3768A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A121E9AA-07AF-4FA1-9A07-0997D9E3768A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
