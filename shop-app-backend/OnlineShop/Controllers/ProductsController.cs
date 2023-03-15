@@ -6,6 +6,7 @@ using OnlineShop.Entities;
 using OnlineShop.Helpers;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Products;
+#pragma warning disable CS0184
 
 namespace OnlineShop.Controllers
 {
@@ -35,7 +36,7 @@ namespace OnlineShop.Controllers
 
             return await _context.Products.Where(x => x.Name
                 .Contains(query))
-                .Where(x=>x.IsAvalible)
+                .Where(x => x.IsAvalible)
                 .OrderBy(x => x.Name)
                 .Select(x => new ProductsOrdersViewModel { Id = x.Id, Name = x.Name, Picture = x.Picture })
                 .Take(5)
@@ -115,19 +116,19 @@ namespace OnlineShop.Controllers
         public async Task<ActionResult<ProductPutGetViewModel>> PutGet(int id)
         {
             var productActionResult = await Get(id);
-            if (productActionResult is NotFoundResult) return NotFound();
+            if (productActionResult is NotFoundResult) 
+                return NotFound();
 
             var product = productActionResult.Value;
-            var categoriesSelectedIds = product.Category.Select(x => x.Id).ToList();
+            var categoriesSelectedIds = product?.Category?.Select(x => x.Id).ToArray() ?? Array.Empty<int>();
             var nonSelectedCategories = _mapper.Map<List<CategoryViewModel>>(await _context.Categories.Where(x => !categoriesSelectedIds.Contains(x.Id)).ToListAsync());
 
-            var response = new ProductPutGetViewModel();
-            response.Product = product;
-            response.NonSelectedCategories = nonSelectedCategories;
-            response.SelectedCategories = _mapper.Map<List<CategoryViewModel>>(await _context.Categories.Where(x => categoriesSelectedIds.Contains(x.Id)).ToListAsync());
-
-            return response;
-
+            return new ProductPutGetViewModel
+            {
+                Product = product ?? throw new ArgumentNullException(nameof(product),"Product not found in database"),
+                NonSelectedCategories = nonSelectedCategories,
+                SelectedCategories = _mapper.Map<List<CategoryViewModel>>(await _context.Categories.Where(x => categoriesSelectedIds.Contains(x.Id)).ToListAsync())
+            };
         }
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromForm] ProductCreationViewModel productCreationViewModel)

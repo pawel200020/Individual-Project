@@ -11,7 +11,9 @@ namespace OnlineShop.Validation
             {
                 return ValidationResult.Success;
             }
+#pragma warning disable CS8602 //never be null!
             var firstLetter = (value as string)[0].ToString();
+#pragma warning restore CS8602
             if (firstLetter != firstLetter.ToUpper())
             {
                 return new ValidationResult("first letter should be uppercase");

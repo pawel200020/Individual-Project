@@ -9,7 +9,7 @@ namespace OnlineShop.Entities
         [Required(ErrorMessage = "This field with name {0} required")]
         [StringLength(50)]
         [FirstLetterUppercase]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public bool IsAvalible { get; set; }
         [Required(ErrorMessage = "This field with name {0} required")]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter a value bigger than {0}")]
@@ -19,8 +19,8 @@ namespace OnlineShop.Entities
         public int Quantity { get; set; }
         [Required(ErrorMessage = "This field with name {0} required")]
         public DateTime ManufactureDate { get; set; }
-        public string Picture { get; set; }
-        public string Caption { get; set; }
-        public List<ProductsCategories> ProductsCategories { get; set; }
+        public string? Picture { get; set; }
+        public string? Caption { get; set; }
+        public List<ProductsCategories>? ProductsCategories { get; set; }
     }
 }

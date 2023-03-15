@@ -9,8 +9,8 @@ namespace OnlineShop.Entities
         [Required(ErrorMessage = "This field with name {0} required")]
         [StringLength(50)]
         [FirstLetterUppercase]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public double Value { get; set; }
-        public List<OrdersProducts> OrdersProducts { get; set; }
+        public List<OrdersProducts>? OrdersProducts { get; set; }
     }
 }

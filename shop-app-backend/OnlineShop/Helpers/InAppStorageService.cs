@@ -46,9 +46,8 @@
             }
 
             var url =
-                $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
-            var routeforDB = Path.Combine(url, containerName, fileName).Replace("\\","/");
-            return routeforDB;
+                $"{_httpContextAccessor.HttpContext?.Request.Scheme}://{_httpContextAccessor.HttpContext?.Request.Host}";
+            return Path.Combine(url, containerName, fileName).Replace("\\","/");
         }
 
         public async Task<string> EditFile(string containerName, IFormFile file, string fileRoute)

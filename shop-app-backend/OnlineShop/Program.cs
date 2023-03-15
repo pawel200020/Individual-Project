@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop;
 using OnlineShop.APIBehavior;
-using OnlineShop.Entities;
 using OnlineShop.Filters;
 using OnlineShop.Helpers;
-using OnlineShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

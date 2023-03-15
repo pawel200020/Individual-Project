@@ -8,8 +8,7 @@ namespace OnlineShop.Filters
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var result = context.Result as IStatusCodeActionResult;
-            if (result is null)
+            if (context.Result is not IStatusCodeActionResult result)
             {
                 return;
             }
@@ -33,6 +32,7 @@ namespace OnlineShop.Filters
                     }
 
                 }
+
 
                 context.Result = new BadRequestObjectResult(response);
             }
