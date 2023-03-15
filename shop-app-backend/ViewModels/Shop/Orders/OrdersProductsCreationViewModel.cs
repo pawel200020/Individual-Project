@@ -1,6 +1,6 @@
-﻿namespace OnlineShop.DTO
+﻿namespace ViewModels.Shop.Orders
 {
-    public class OrdersProductsCreationDTO
+    public class OrdersProductsCreationViewModel
     {
         public int Id { get; set; }
         public int Quantity { get; set; }

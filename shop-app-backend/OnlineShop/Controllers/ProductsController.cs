@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using OnlineShop.DTO;
 using OnlineShop.Entities;
 using OnlineShop.Helpers;
+using ViewModels.Shop.Categories;
+using ViewModels.Shop.Products;
 
 namespace OnlineShop.Controllers
 {
@@ -24,85 +26,85 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet("searchByName/{query}")]
-        public async Task<ActionResult<List<ProductsOrdersDTO>>> SearchByName(string query)
+        public async Task<ActionResult<List<ProductsOrdersViewModel>>> SearchByName(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
-                return new List<ProductsOrdersDTO>();
+                return new List<ProductsOrdersViewModel>();
             }
 
             return await _context.Products.Where(x => x.Name
                 .Contains(query))
                 .Where(x=>x.IsAvalible)
                 .OrderBy(x => x.Name)
-                .Select(x => new ProductsOrdersDTO { Id = x.Id, Name = x.Name, Picture = x.Picture })
+                .Select(x => new ProductsOrdersViewModel { Id = x.Id, Name = x.Name, Picture = x.Picture })
                 .Take(5)
                 .ToListAsync();
         }
 
 
         [HttpGet("PostGet")]
-        public async Task<ActionResult<ProductPostGetDTO>> PostGet()
+        public async Task<ActionResult<ProductPostGetViewModel>> PostGet()
         {
             var categories = await _context.Categories.ToListAsync();
-            var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categories);
+            var categoriesDTO = _mapper.Map<List<CategoryViewModel>>(categories);
 
-            return new ProductPostGetDTO() { Categories = categoriesDTO };
+            return new ProductPostGetViewModel() { Categories = categoriesDTO };
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult<List<ProductDTO>>> Filter([FromQuery] FilterProductsDTO filterProductsDto)
+        public async Task<ActionResult<List<ProductViewModel>>> Filter([FromQuery] FilterProductsViewModel filterProductsViewModel)
         {
             var productsQueryable = _context.Products.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(filterProductsDto.Name))
+            if (!string.IsNullOrWhiteSpace(filterProductsViewModel.Name))
             {
-                productsQueryable = productsQueryable.Where(x => x.Name.Contains(filterProductsDto.Name));
+                productsQueryable = productsQueryable.Where(x => x.Name.Contains(filterProductsViewModel.Name));
             }
 
-            if (filterProductsDto.isAvalible)
+            if (filterProductsViewModel.isAvalible)
             {
                 productsQueryable = productsQueryable.Where(x => x.IsAvalible);
             }
 
-            if (filterProductsDto.CategoryId != -1)
+            if (filterProductsViewModel.CategoryId != -1)
             {
                 productsQueryable = productsQueryable
                     .Where(x => x.ProductsCategories.Select(y => y.CategoryId)
-                        .Contains(filterProductsDto.CategoryId));
+                        .Contains(filterProductsViewModel.CategoryId));
             }
 
             await HttpContext.InsertParamtersPanginationInHeader(productsQueryable);
-            var products = await productsQueryable.OrderBy(x => x.Name).Paginate(filterProductsDto.PaginationDTO)
+            var products = await productsQueryable.OrderBy(x => x.Name).Paginate(filterProductsViewModel.PaginationViewModel)
                 .ToListAsync();
-            return _mapper.Map<List<ProductDTO>>(products);
+            return _mapper.Map<List<ProductViewModel>>(products);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductDTO>>> Get([FromQuery] PaginationDTO paginationDto)
+        public async Task<ActionResult<List<ProductViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
 
             var queryable = _context.Products.AsQueryable();
             await HttpContext.InsertParamtersPanginationInHeader(queryable);
-            var products = await queryable.OrderBy(x => x.Name).Paginate(paginationDto).ToListAsync();
-            return _mapper.Map<List<ProductDTO>>(products);
+            var products = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
+            return _mapper.Map<List<ProductViewModel>>(products);
         }
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ProductDTO>> Get(int id)
+        public async Task<ActionResult<ProductViewModel>> Get(int id)
         {
             var product = await _context.Products
                 .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (product == null) return NotFound();
-            return _mapper.Map<ProductDTO>(product);
+            return _mapper.Map<ProductViewModel>(product);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] ProductCreationDTO productCreationDto)
+        public async Task<ActionResult> Post([FromForm] ProductCreationViewModel productCreationViewModel)
         {
-            var product = _mapper.Map<Product>(productCreationDto);
-            if (productCreationDto.Picture != null)
+            var product = _mapper.Map<Product>(productCreationViewModel);
+            if (productCreationViewModel.Picture != null)
             {
-                product.Picture = await _fileStorageService.SaveFile(_containerName, productCreationDto.Picture);
+                product.Picture = await _fileStorageService.SaveFile(_containerName, productCreationViewModel.Picture);
             }
             _context.Add(product);
             await _context.SaveChangesAsync();
@@ -110,34 +112,34 @@ namespace OnlineShop.Controllers
         }
         [HttpGet("putget/{id:int}")]
 
-        public async Task<ActionResult<ProductPutGetDTO>> PutGet(int id)
+        public async Task<ActionResult<ProductPutGetViewModel>> PutGet(int id)
         {
             var productActionResult = await Get(id);
             if (productActionResult is NotFoundResult) return NotFound();
 
             var product = productActionResult.Value;
             var categoriesSelectedIds = product.Category.Select(x => x.Id).ToList();
-            var nonSelectedCategories = _mapper.Map<List<CategoryDTO>>(await _context.Categories.Where(x => !categoriesSelectedIds.Contains(x.Id)).ToListAsync());
+            var nonSelectedCategories = _mapper.Map<List<CategoryViewModel>>(await _context.Categories.Where(x => !categoriesSelectedIds.Contains(x.Id)).ToListAsync());
 
-            var response = new ProductPutGetDTO();
+            var response = new ProductPutGetViewModel();
             response.Product = product;
             response.NonSelectedCategories = nonSelectedCategories;
-            response.SelectedCategories = _mapper.Map<List<CategoryDTO>>(await _context.Categories.Where(x => categoriesSelectedIds.Contains(x.Id)).ToListAsync());
+            response.SelectedCategories = _mapper.Map<List<CategoryViewModel>>(await _context.Categories.Where(x => categoriesSelectedIds.Contains(x.Id)).ToListAsync());
 
             return response;
 
         }
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id, [FromForm] ProductCreationDTO productCreationDto)
+        public async Task<ActionResult> Put(int id, [FromForm] ProductCreationViewModel productCreationViewModel)
         {
             var product = await _context.Products
                 .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (product == null) return NotFound();
-            product = _mapper.Map(productCreationDto, product);
-            if (productCreationDto.Picture != null)
+            product = _mapper.Map(productCreationViewModel, product);
+            if (productCreationViewModel.Picture != null)
             {
-                product.Picture = await _fileStorageService.SaveFile(_containerName, productCreationDto.Picture);
+                product.Picture = await _fileStorageService.SaveFile(_containerName, productCreationViewModel.Picture);
             }
 
             try

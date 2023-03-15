@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineShop.DTO;
 using OnlineShop.Entities;
 using OnlineShop.Helpers;
+using ViewModels.Shop.Orders;
 
 namespace OnlineShop.Controllers
 {
@@ -21,37 +22,32 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<OrderDTO>>> Get([FromQuery] PaginationDTO paginationDto)
+        public async Task<ActionResult<List<OrderViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
 
             var queryable = _context.Orders.AsQueryable();
             await HttpContext.InsertParamtersPanginationInHeader(queryable);
-            var orders = await queryable.OrderBy(x => x.Name).Paginate(paginationDto).ToListAsync();
-            return _mapper.Map<List<OrderDTO>>(orders);
+            var orders = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
+            return _mapper.Map<List<OrderViewModel>>(orders);
         }
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<OrderDTO>> Get(int id)
+        public async Task<ActionResult<OrderViewModel>> Get(int id)
         {
             var order = await _context.Orders
                 .Include(x=>x.OrdersProducts).ThenInclude(x=>x.Product)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (order == null) return NotFound();
-            return _mapper.Map<OrderDTO>(order);
+            return _mapper.Map<OrderViewModel>(order);
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post([FromForm] OrderCreationDTO orderCreationDto)
+        public async Task<ActionResult<int>> Post([FromForm] OrderCreationViewModel orderCreationViewModel)
         {
-            var order = _mapper.Map<Order>(orderCreationDto);
+            var order = _mapper.Map<Order>(orderCreationViewModel);
             order.Value = await CountOrderValue(order.OrdersProducts);
             _context.Add(order);
             await _context.SaveChangesAsync();
             return order.Id;
-        }
-        [HttpPut]
-        public async Task<ActionResult> Put([FromBody] ProductCreationDTO productCreationDto)
-        {
-            throw new NotImplementedException();
         }
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)

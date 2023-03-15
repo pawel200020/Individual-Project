@@ -2,6 +2,9 @@
 using AutoMapper;
 using OnlineShop.DTO;
 using OnlineShop.Entities;
+using ViewModels.Shop.Categories;
+using ViewModels.Shop.Orders;
+using ViewModels.Shop.Products;
 
 namespace OnlineShop.Helpers
 {
@@ -9,34 +12,34 @@ namespace OnlineShop.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<CategoryDTO, Category>().ReverseMap();
-            CreateMap<CategoryCreationDTO, Category>();
+            CreateMap<CategoryViewModel, Category>().ReverseMap();
+            CreateMap<CategoryCreationViewModel, Category>();
 
-            CreateMap<OrderDTO, Order>().ReverseMap();
-            CreateMap<OrderCreationDTO, Order>()
+            CreateMap<OrderViewModel, Order>().ReverseMap();
+            CreateMap<OrderCreationViewModel, Order>()
                 .ForMember(x => x.OrdersProducts, options => options.MapFrom(MapOrderProducts));
 
-            CreateMap<ProductDTO, Product>().ReverseMap();
-            CreateMap<ProductCreationDTO, Product>()
+            CreateMap<ProductViewModel, Product>().ReverseMap();
+            CreateMap<ProductCreationViewModel, Product>()
                 .ForMember(x => x.Picture, options => options.Ignore())
                 .ForMember(x => x.ProductsCategories, options => options.MapFrom(MapProductCategories));
 
-            CreateMap<Product, ProductDTO>()
+            CreateMap<Product, ProductViewModel>()
                 .ForMember(x => x.Category, options => options.MapFrom(MapProductCategories));
 
-            CreateMap<Order, OrderDTO>()
+            CreateMap<Order, OrderViewModel>()
                 .ForMember(x => x.OrdersProducts, options => options.MapFrom(MapOrderProductsOrder));
         }
 
-        private List<ProductsCategories> MapProductCategories(ProductCreationDTO productCreationDto, Product product)
+        private List<ProductsCategories> MapProductCategories(ProductCreationViewModel productCreationViewModel, Product product)
         {
             var result = new List<ProductsCategories>();
-            if (productCreationDto.CategoriesIds == null)
+            if (productCreationViewModel.CategoriesIds == null)
             {
                 return result;
             }
 
-            foreach (var id in productCreationDto.CategoriesIds)
+            foreach (var id in productCreationViewModel.CategoriesIds)
             {
                 result.Add(new ProductsCategories() {CategoryId = id});
             }
@@ -44,15 +47,15 @@ namespace OnlineShop.Helpers
             return result;
         }
 
-        private List<OrdersProducts> MapOrderProducts(OrderCreationDTO orderCreationDto, Order order)
+        private List<OrdersProducts> MapOrderProducts(OrderCreationViewModel orderCreationViewModel, Order order)
         {
             var result = new List<OrdersProducts>();
-            if (orderCreationDto.OrdersProducts == null)
+            if (orderCreationViewModel.OrdersProducts == null)
             {
                 return result;
             }
 
-            foreach (var product in orderCreationDto.OrdersProducts)
+            foreach (var product in orderCreationViewModel.OrdersProducts)
             {
                 result.Add(new OrdersProducts() {ProductId = product.Id, Quantity = product.Quantity});
             }
@@ -60,28 +63,28 @@ namespace OnlineShop.Helpers
             return result;
         }
 
-        private List<CategoryDTO> MapProductCategories(Product product, ProductDTO productDto)
+        private List<CategoryViewModel> MapProductCategories(Product product, ProductViewModel productViewModel)
         {
-            var res  = new List<CategoryDTO>();
+            var res  = new List<CategoryViewModel>();
             if (product.ProductsCategories != null)
             {
                 foreach (var cat in product.ProductsCategories)
                 {
-                    res.Add(new CategoryDTO(){Id=cat.CategoryId,Name = cat.Category.Name});
+                    res.Add(new CategoryViewModel(){Id=cat.CategoryId,Name = cat.Category.Name});
                 }
             }
 
             return res;
         }
 
-        private List<ProductsOrdersDTO> MapOrderProductsOrder(Order order, OrderDTO orderDto)
+        private List<ProductsOrdersViewModel> MapOrderProductsOrder(Order order, OrderViewModel orderViewModel)
         {
-            var res = new List<ProductsOrdersDTO>();
+            var res = new List<ProductsOrdersViewModel>();
             if (order.OrdersProducts != null)
             {
                 foreach (var product in order.OrdersProducts)
                 {
-                    res.Add(new ProductsOrdersDTO(){Id = product.ProductId, Name = product.Product.Name, Picture = product.Product.Picture, Quantity = product.Quantity});
+                    res.Add(new ProductsOrdersViewModel(){Id = product.ProductId, Name = product.Product.Name, Picture = product.Product.Picture, Quantity = product.Quantity});
                 }
             }
 
