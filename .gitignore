@@ -401,3 +401,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/shop-app-backend/OnlineShop/wwwroot/products
