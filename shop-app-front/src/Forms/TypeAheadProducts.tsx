@@ -1,4 +1,4 @@
-import {productsOrderDTO} from "../shop/Products.model";
+import {productsOrderDTO} from "../Shop/Products.model";
 import {AsyncTypeahead, Typeahead} from "react-bootstrap-typeahead";
 import NumberField from "./NumberField";
 import {ReactElement, useState} from "react";

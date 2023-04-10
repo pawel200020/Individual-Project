@@ -18,3 +18,11 @@ form > a {
 .pointer{
     cursor: pointer;
 }
+.clear {
+    clear: both;
+    height: 70px;
+}
+.card{
+    margin-bottom: 10px;
+    margin-left: 30px;
+}

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {orderCreationDTO} from "./Order.model.t";
 import TypeAheadProducts from "../Forms/TypeAheadProducts";
 import {useState} from "react";
-import {productsOrderDTO} from "../shop/Products.model";
+import {productsOrderDTO} from "../Shop/Products.model";
 import {Simulate} from "react-dom/test-utils";
 import input = Simulate.input;
 

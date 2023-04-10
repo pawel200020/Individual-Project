@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
@@ -15,11 +16,16 @@ namespace OnlineShop.Filters
             var statusCode = result.StatusCode;
             if (statusCode == 400)
             {
-                var response = new List<string>();
+                var response = new List<string?>();
                 var badRequestObjectResult = context.Result as BadRequestObjectResult;
                 if (badRequestObjectResult is string)
                 {
-                    response.Add(badRequestObjectResult.Value.ToString());
+                    if (badRequestObjectResult.Value != null) response.Add(badRequestObjectResult.Value.ToString());
+                }
+                else if (badRequestObjectResult?.Value is IEnumerable<IdentityError> errors)
+                {
+                    foreach (var error in errors)
+                        response.Add(error.Description);
                 }
                 else
                 {

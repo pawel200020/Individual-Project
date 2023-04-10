@@ -1,4 +1,4 @@
-import {productsOrderDTO} from "../shop/Products.model";
+import {productsOrderDTO} from "../Shop/Products.model";
 
 export interface orderCreationDTO{
     name: string;

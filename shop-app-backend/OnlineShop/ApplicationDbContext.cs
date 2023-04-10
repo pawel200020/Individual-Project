@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using OnlineShop.Entities;
@@ -6,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace OnlineShop
 {
-    public class ApplicationDbContext :DbContext
+    public class ApplicationDbContext :IdentityDbContext
     {
         public ApplicationDbContext([NotNullAttribute] DbContextOptions options) : base(options)
         {

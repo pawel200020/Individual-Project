@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {ProductDTOIndex} from "../shop/Products.model";
+import {ProductDTOIndex} from "../Shop/Products.model";
 import {urlOrders, urlProducts} from "../endpoints";
 import IndexEntity2 from "../utils/IndexEntity2";
 import React from "react";

@@ -1,20 +1,22 @@
 import About from "./About/About";
-import Shop from "./shop/Shop";
+import Shop from "./Shop/Shop";
 import Home from "./Home/Home";
-import CreateProduct from "./shop/CreateProduct";
-import EditProduct from "./shop/EditProduct";
+import CreateProduct from "./Shop/CreateProduct";
+import EditProduct from "./Shop/EditProduct";
 import EditCategory from "./Categories/EditCategory";
 import CreateCategory from "./Categories/CreateCategory";
 import CategoriesIndex from "./Categories/CategoriesIndex";
-import FilterProduct from "./shop/FilterProduct";
+import FilterProduct from "./Shop/FilterProduct";
 import PageNotFound from "./utils/PageNotFound";
-import DeleteProduct from "./shop/DeleteProduct";
+import DeleteProduct from "./Shop/DeleteProduct";
 import OrdersIndex from "./Orders/OrdersIndex";
 import CreateOrder from "./Orders/CreateOrder";
 import EditOrder from "./Orders/EditOrder";
 import DeleteOrder from "./Orders/DeleteOrder";
-import ProductDetails from "./shop/ProductDetails";
+import ProductDetails from "./Shop/ProductDetails";
 import OrderDetails from "./Orders/OrderDetails";
+import Register from "./auth/Register";
+import Login from "./auth/Login";
 
 const routes = [
     {path: '/About', component: About},
@@ -23,14 +25,17 @@ const routes = [
     {path: '/Shop/Edit/:id', component: EditProduct},
     {path: '/Shop/:id', component: ProductDetails},
     {path: '/Shop/Delete', component: DeleteProduct},
-    {path: '/Categories/Edit/:id', component: EditCategory},
-    {path: '/Categories/Create', component: CreateCategory},
-    {path: '/Categories/Index', component: CategoriesIndex},
+    {path: '/Categories/Edit/:id', component: EditCategory, roles: ["admin"]},
+    {path: '/Categories/Create', component: CreateCategory, roles: ["admin"]},
+    {path: '/Categories/Index', component: CategoriesIndex, roles: ["admin"]},
     {path: '/Orders', component: OrdersIndex},
     {path: '/Orders/Create', component: CreateOrder},
     {path: '/Orders/Edit/:id', component: EditOrder},
     {path: '/Orders/Delete/:id', component: DeleteOrder},
     {path: '/Orders/:id', component: OrderDetails},
+
+    {path: '/register', component: Register},
+    {path: '/login', component: Login},
 
     {path: '/Shop/Filter', component: FilterProduct},
     {path: '/', component: Home},

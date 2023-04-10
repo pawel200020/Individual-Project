@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {ProductDTO} from "../shop/Products.model";
+import {ProductDTO} from "../Shop/Products.model";
 import axios, {AxiosResponse} from "axios";
 import {urlOrders, urlProducts} from "../endpoints";
 import ReactMarkdown from "react-markdown";

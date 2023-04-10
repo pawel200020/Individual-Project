@@ -5,7 +5,7 @@ export default function TextField(props: textFieldProps){
         <>
             <div className='mb-3'>
                 <label htmlFor={props.field}>{props.displayName}</label>
-                <Field name={props.field} className='form-control'  id='name'/>
+                <Field name={props.field} type = {props.type} className='form-control'  id='name'/>
                 <ErrorMessage name={props.field}>{msg=><div className='text-danger'>{msg}</div>}</ErrorMessage>
             </div>
         </>
@@ -14,4 +14,8 @@ export default function TextField(props: textFieldProps){
 interface textFieldProps{
     field: string;
     displayName: string;
+    type: 'text' | 'password';
+}
+TextField.defaultProps = {
+    type: 'text'
 }

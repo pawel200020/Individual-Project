@@ -1,5 +1,8 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OnlineShop;
 using OnlineShop.APIBehavior;
 using OnlineShop.Filters;
@@ -16,11 +19,27 @@ builder.Services.AddControllers(options =>
 }).ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
 builder.Services.AddResponseCaching();
 builder.Services.AddControllers(options => options.Filters.Add(typeof(MyExceptionFilter)));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["keyjwt"])),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -32,11 +51,11 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
 {
-    var frontendURL = builder.Configuration.GetValue<string>("frontend_url");
-    options.AddDefaultPolicy(builder =>
+    var frontendUrl = builder.Configuration.GetValue<string>("frontend_url");
+    options.AddDefaultPolicy(corsPolicyBuilder =>
     {
-        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader()
-            .WithExposedHeaders(new string[] {"totalAmountOfRecords"});
+        corsPolicyBuilder.WithOrigins(frontendUrl).AllowAnyMethod().AllowAnyHeader()
+            .WithExposedHeaders("totalAmountOfRecords");
     });
 });
 

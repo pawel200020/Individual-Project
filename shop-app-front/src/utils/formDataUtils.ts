@@ -1,4 +1,4 @@
-import {ProductCreationDTO} from "../shop/Products.model";
+import {ProductCreationDTO} from "../Shop/Products.model";
 import {orderCreationDTO} from "../Orders/Order.model.t";
 
 export function convertProductToFormData (product: ProductCreationDTO): FormData{
