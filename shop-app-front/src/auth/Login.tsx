@@ -6,17 +6,20 @@ import {useContext, useState} from "react";
 import DisplayErrors from "../utils/DisplayError";
 import {getClaims, saveToken} from "./HandleJWT";
 import AuthContext from "./AuthContext";
+import {useNavigate, useNavigation} from "react-router-dom";
 
 export default function Login(){
     const [errors, setErrors] = useState<string[]>([]);
     const {update} = useContext(AuthContext);
+    const navigation = useNavigate();
     async function login (credentials: userCredentials){
         try{
             setErrors([]);
             const response = await axios.post<authenticationResponse>(`${urlAccounts}/login`, credentials);
             saveToken(response.data);
             update(getClaims());
-            console.log(response.data)
+            console.log(response.data);
+            navigation('/');
         }
         catch (error: any){
             if(error || error.response){

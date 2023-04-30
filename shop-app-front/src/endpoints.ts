@@ -3,3 +3,4 @@ export const urlCategories = `${baseUrl}/categories`
 export const urlProducts = `${baseUrl}/products`;
 export const urlOrders = `${baseUrl}/orders`;
 export const urlAccounts = `${baseUrl}/accounts`;
+export const urlRatings = `${baseUrl}/ratings`;

@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 import axios, {AxiosResponse} from "axios";
-import {urlProducts} from "../endpoints";
+import {urlProducts, urlRatings} from "../endpoints";
 import {Link, useParams} from "react-router-dom";
 import {ProductDTO} from "./Products.model";
 import Loading from "../utils/Loading";
 import ReactMarkdown from "react-markdown";
+import Ratings from "../utils/Ratings";
+import Swal from "sweetalert2";
 
 export default function ProductDetails(){
     const {id} : any = useParams();
@@ -17,6 +19,13 @@ export default function ProductDetails(){
             })
     },[id])
     console.log(product);
+
+    function handleRate(rate: number){
+        axios.post(urlRatings, {rating: rate, productId: id}).then(()=>{
+            Swal.fire({icon: "success", title: "Rating received"})
+        })
+    }
+
     return(
         <>
             {product ? <div>
@@ -24,6 +33,8 @@ export default function ProductDetails(){
                 {product.category?.map(category=>
                     <Link key ={category.id} style ={{marginRight: '5px'}} className="btn btn-primary btn-sm rounded-pill" to ={`/Shop/filter?categoryId=${category.id}`}>{category.name}</Link>
                 )}
+                Your rating: <Ratings maximumValue={5} selectedValue={product.userVote} onChange={handleRate}/>
+                Average rating: {product.averageVote}
                 <div style ={{ display: 'flex', marginTop: '1rem'}}>
                     <span style = {{display: 'inline-block', marginRight: '1rem'}}>
                         <img src={product.picture} style={{width: '225px'}} alt="poster"/>

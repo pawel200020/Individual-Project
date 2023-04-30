@@ -6,10 +6,12 @@ import DisplayErrors from "../utils/DisplayError";
 import AuthForm from "./AuthForm";
 import {getClaims, saveToken} from "./HandleJWT";
 import AuthContext from "./AuthContext";
+import {useNavigate} from "react-router-dom";
 
 export default function  Register(){
     const [errors, setErrors] = useState<string[]>([])
     const {update} = useContext(AuthContext);
+    const navigation = useNavigate();
     async function register(credentials: userCredentials){
         try{
             setErrors([]);
@@ -17,6 +19,7 @@ export default function  Register(){
             saveToken(response.data);
             update(getClaims());
             console.log(response);
+            navigation('/');
         }
         catch (error: any){
             if(error || error.response){

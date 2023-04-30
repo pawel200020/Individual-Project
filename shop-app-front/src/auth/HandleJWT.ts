@@ -12,7 +12,6 @@ export function getClaims(): claim []{
         return [];
     }
 
-
     const expiration = localStorage.getItem(expirationKey)!;
     const expirationDate = new Date(expiration);
 
@@ -29,4 +28,8 @@ export function getClaims(): claim []{
 export function logout(){
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(expirationKey);
+}
+
+export function getToken(){
+    return localStorage.getItem(tokenKey);
 }

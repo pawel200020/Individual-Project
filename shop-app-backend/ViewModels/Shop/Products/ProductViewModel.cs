@@ -13,5 +13,7 @@ namespace ViewModels.Shop.Products
         public string? Picture { get; set; }
         public string? Caption { get; set; } 
         public List<CategoryViewModel>? Category { get; set; }
+        public double AverageVote { get; set; }
+        public int UserVote { get; set; }
     }
 }

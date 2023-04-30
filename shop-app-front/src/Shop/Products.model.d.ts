@@ -22,6 +22,8 @@ export interface ProductDTO{
     pictureUrl?: string;
     caption?: string;
     category?: categoryDTO[];
+    userVote: number;
+    averageVote: number;
 }
 export interface ProductCreationDTO{
     name: string;

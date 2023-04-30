@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.DTO;
 using OnlineShop.Entities;
 using OnlineShop.Helpers;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Identity;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Products;
 #pragma warning disable CS0184
@@ -12,18 +16,21 @@ namespace OnlineShop.Controllers
 {
     [Route("api/products")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IFileStorageService _fileStorageService;
         private readonly string _containerName = "products";
 
-        public ProductsController(ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService)
+        public ProductsController(ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService, UserManager<IdentityUser> userManager)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper;
             _fileStorageService = fileStorageService;
+            _userManager = userManager;
         }
 
         [HttpGet("searchByName/{query}")]
@@ -54,6 +61,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet("filter")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<ProductViewModel>>> Filter([FromQuery] FilterProductsViewModel filterProductsViewModel)
         {
             var productsQueryable = _context.Products.AsQueryable();
@@ -81,6 +89,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<ProductViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
 
@@ -90,13 +99,40 @@ namespace OnlineShop.Controllers
             return _mapper.Map<List<ProductViewModel>>(products);
         }
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<ProductViewModel>> Get(int id)
         {
             var product = await _context.Products
                 .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (product == null) return NotFound();
-            return _mapper.Map<ProductViewModel>(product);
+
+            var avgVote = 0.0;
+            var userVote = 0;
+
+            if(await _context.Rating.AnyAsync(x=>x.ProductId == id))
+            {
+                avgVote = await _context.Rating.Where(x => x.ProductId == id).AverageAsync(x => x.Rate);
+                if (HttpContext.User.Identity is {IsAuthenticated: true})
+                {
+                    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+                    var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+                    var user = await _userManager.FindByEmailAsync(email);
+                    var userId = user.Id;
+
+                    var ratingDb =
+                        await _context.Rating.FirstOrDefaultAsync(x => x.ProductId == id && x.UserId == userId);
+                    if (ratingDb != null)
+                    {
+                        userVote = ratingDb.Rate;
+                    }
+                }
+            }
+
+            var productModel = _mapper.Map<ProductViewModel>(product);
+            productModel.AverageVote = avgVote;
+            productModel.UserVote = userVote;
+            return productModel;
         }
 
         [HttpPost]
@@ -112,7 +148,7 @@ namespace OnlineShop.Controllers
             return NoContent();
         }
         [HttpGet("putget/{id:int}")]
-
+        [AllowAnonymous]
         public async Task<ActionResult<ProductPutGetViewModel>> PutGet(int id)
         {
             var productActionResult = await Get(id);

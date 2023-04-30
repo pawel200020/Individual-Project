@@ -22,6 +22,12 @@ builder.Services.AddControllers(options => options.Filters.Add(typeof(MyExceptio
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsAdmin",policy=> policy.RequireClaim("role","admin"));
+});
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

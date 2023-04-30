@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using OnlineShop.Entities;
 using Microsoft.Extensions.Configuration;
+using ShopPortal.Entities;
 
 namespace OnlineShop
 {
@@ -42,5 +43,6 @@ namespace OnlineShop
         public DbSet<Product> Products { get; set; }
         public DbSet<OrdersProducts> OrdersProducts { get; set; }
         public DbSet<ProductsCategories> ProductsCategories { get; set; }
+        public DbSet<Rating> Rating { get; set; }
     }
 }

@@ -7,8 +7,10 @@ import {useContext, useEffect, useState} from "react";
 import {claim} from "./auth/auth.model";
 import AuthContext from "./auth/AuthContext";
 import {Browser} from "leaflet";
-import retina = Browser.retina;
 import {getClaims} from "./auth/HandleJWT";
+import configureInterceptor from "./utils/httpinterceptors";
+
+configureInterceptor();
 
 function App() {
     const {update, claims} = useContext(AuthContext);
