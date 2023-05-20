@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +26,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("IsAdmin",policy=> policy.RequireClaim("role","admin"));
+    options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
 });
 
 builder.Services.AddSwaggerGen();
@@ -79,9 +80,9 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 
-app.UseCors();
-
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.DTO;
@@ -13,6 +14,7 @@ namespace OnlineShop.Controllers
 {
     [Route("api/categories")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriesController : ControllerBase
     {
         private readonly ILogger<CategoriesController> _logger;
@@ -27,10 +29,10 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        //      [HttpGet("list")]
-        //      [ResponseCache(Duration = 60)]
+        [Authorize(Policy = "Admin")]
         public async Task<ActionResult<List<CategoryViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
+            var test = HttpContext.User.Claims.ToArray();
             _logger.LogInformation("Getting all categories");
             var queryable = _context.Categories.AsQueryable();
             await HttpContext.InsertParamtersPanginationInHeader(queryable);
@@ -39,6 +41,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet("all")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<CategoryViewModel>>> Get()
         {
             _logger.LogInformation("Getting all categories");
@@ -48,6 +51,7 @@ namespace OnlineShop.Controllers
 
 
         [HttpGet("{Id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<CategoryViewModel>> Get(int Id)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == Id);
