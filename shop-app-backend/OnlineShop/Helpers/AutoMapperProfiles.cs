@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using AutoMapper;
-using OnlineShop.DTO;
-using OnlineShop.Entities;
+﻿using AutoMapper;
+using ShopPortal.Entities;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Orders;
 using ViewModels.Shop.Products;
 
-namespace OnlineShop.Helpers
+namespace ShopPortal.Helpers
 {
     public class AutoMapperProfiles :Profile
     {

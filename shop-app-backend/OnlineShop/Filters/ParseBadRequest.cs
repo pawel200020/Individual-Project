@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace OnlineShop.Filters
+namespace ShopPortal.Filters
 {
     public class ParseBadRequest : IActionFilter
     {

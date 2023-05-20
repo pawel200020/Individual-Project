@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
-namespace OnlineShop.Helpers
+namespace ViewModels.Helpers
 {
     public class TypeBinder<T> : IModelBinder
     {

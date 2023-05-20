@@ -1,4 +1,4 @@
-﻿using OnlineShop.DTO;
+﻿using ViewModels.Pagination;
 
 namespace ViewModels.Shop.Products
 {

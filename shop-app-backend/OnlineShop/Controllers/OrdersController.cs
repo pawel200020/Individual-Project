@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OnlineShop.DTO;
-using OnlineShop.Entities;
-using OnlineShop.Helpers;
+using OnlineShop;
+using ShopPortal.Entities;
+using ShopPortal.Helpers;
+using ViewModels.Pagination;
 using ViewModels.Shop.Orders;
 
-namespace OnlineShop.Controllers
+namespace ShopPortal.Controllers
 {
     [Route("api/orders")]
     [ApiController]
@@ -26,7 +27,7 @@ namespace OnlineShop.Controllers
         {
 
             var queryable = _context.Orders.AsQueryable();
-            await HttpContext.InsertParamtersPanginationInHeader(queryable);
+            await HttpContext.InsertParametersPaginationInHeader(queryable);
             var orders = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
             return _mapper.Map<List<OrderViewModel>>(orders);
         }

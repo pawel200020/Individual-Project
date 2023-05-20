@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.Entities
+﻿namespace ShopPortal.Entities
 {
     public class ProductsCategories
     {

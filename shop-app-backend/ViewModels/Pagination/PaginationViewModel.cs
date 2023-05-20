@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.DTO
+﻿namespace ViewModels.Pagination
 {
     public class PaginationViewModel
     {

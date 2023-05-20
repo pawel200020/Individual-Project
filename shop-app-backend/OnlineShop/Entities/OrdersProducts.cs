@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OnlineShop.Entities
+namespace ShopPortal.Entities
 {
     public class OrdersProducts
     {

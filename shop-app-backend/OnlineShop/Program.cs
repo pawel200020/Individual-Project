@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using OnlineShop;
-using OnlineShop.APIBehavior;
-using OnlineShop.Filters;
-using OnlineShop.Helpers;
+using ShopPortal;
+using ShopPortal.APIBehavior;
+using ShopPortal.Filters;
+using ShopPortal.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 

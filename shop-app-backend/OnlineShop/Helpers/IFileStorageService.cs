@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.Helpers
+﻿namespace ShopPortal.Helpers
 {
     public interface IFileStorageService
     {

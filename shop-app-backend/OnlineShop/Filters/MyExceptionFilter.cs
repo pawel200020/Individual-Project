@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace OnlineShop.Filters
+namespace ShopPortal.Filters
 {
     public class MyExceptionFilter :ExceptionFilterAttribute
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using OnlineShop.Validation;
+using ShopPortal.Validation;
 
-namespace OnlineShop.Entities
+namespace ShopPortal.Entities
 {
 	public class Category
 	{
@@ -10,6 +10,5 @@ namespace OnlineShop.Entities
 		[StringLength(50)]
 		[FirstLetterUppercase]
 		public string Name { get; set; } = null!;
-
-	}
+    }
 }

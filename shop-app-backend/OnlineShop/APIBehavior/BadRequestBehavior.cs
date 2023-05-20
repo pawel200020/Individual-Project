@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OnlineShop.APIBehavior
+namespace ShopPortal.APIBehavior
 {
     public class BadRequestBehavior
     {

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using OnlineShop.Entities;
 
-namespace OnlineShop.Validation
+namespace ShopPortal.Validation
 {
     public class FirstLetterUppercaseAttribute : ValidationAttribute
     {

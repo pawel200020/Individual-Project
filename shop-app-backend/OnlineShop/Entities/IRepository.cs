@@ -1,9 +1,9 @@
-﻿namespace OnlineShop.Entities
+﻿namespace ShopPortal.Entities
 {
     public interface IRepository
     {
         Task<List<Category>> GetAllCategories();
-        public Category getCategoryById(int id);
+        public Category GetCategoryById(int id);
         public void AddCategory(Category category);
     }
 }

@@ -30,7 +30,7 @@ namespace ShopPortal.Controllers
             var result = await _userManager.CreateAsync(user, userCredentials.Password);
 
             if (result.Succeeded)
-                return BuildToken(userCredentials);
+                return await BuildToken(userCredentials);
 
             return BadRequest(result.Errors.Select(x=>x.Description));
         }
@@ -40,19 +40,28 @@ namespace ShopPortal.Controllers
         {
             var result = await _signInManager.PasswordSignInAsync(userCredentials.Email,userCredentials.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
-                return BuildToken(userCredentials);
+                return  await BuildToken(userCredentials);
 
             return BadRequest(new[]{"incorrect login or password"});
         }
 
-        private AuthenticationResponse BuildToken(UserCredentials userCredentials)
+        private async Task<AuthenticationResponse> BuildToken(UserCredentials userCredentials)
         {
             var claims = new List<Claim>()
             {
                 new ("email", userCredentials.Email)
             };
+            var user = await _userManager.FindByNameAsync(userCredentials.Email);
+            var claimsDB = await _userManager.GetClaimsAsync(user);
+
+            claims.AddRange(claimsDB);
+
+
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["keyjwt"] ?? throw new InvalidOperationException()));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+
 
             var expiration = DateTime.UtcNow.AddDays(1);
             var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expiration,

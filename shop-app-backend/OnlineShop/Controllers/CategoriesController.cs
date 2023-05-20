@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OnlineShop.DTO;
-using OnlineShop.Entities;
-using OnlineShop.Filters;
-using OnlineShop.Helpers;
+using ShopPortal.Entities;
+using ShopPortal.Helpers;
+using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 
-namespace OnlineShop.Controllers
+namespace ShopPortal.Controllers
 {
     [Route("api/categories")]
     [ApiController]
@@ -35,7 +33,7 @@ namespace OnlineShop.Controllers
             var test = HttpContext.User.Claims.ToArray();
             _logger.LogInformation("Getting all categories");
             var queryable = _context.Categories.AsQueryable();
-            await HttpContext.InsertParamtersPanginationInHeader(queryable);
+            await HttpContext.InsertParametersPaginationInHeader(queryable);
             var categories = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
             return _mapper.Map<List<CategoryViewModel>>(categories);
         }

@@ -1,18 +1,20 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OnlineShop.DTO;
-using OnlineShop.Entities;
-using OnlineShop.Helpers;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Identity;
+using OnlineShop;
+using ShopPortal.Entities;
+using ShopPortal.Helpers;
+using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Products;
+
 #pragma warning disable CS0184
 
-namespace OnlineShop.Controllers
+namespace ShopPortal.Controllers
 {
     [Route("api/products")]
     [ApiController]
@@ -82,7 +84,7 @@ namespace OnlineShop.Controllers
                         .Contains(filterProductsViewModel.CategoryId));
             }
 
-            await HttpContext.InsertParamtersPanginationInHeader(productsQueryable);
+            await HttpContext.InsertParametersPaginationInHeader(productsQueryable);
             var products = await productsQueryable.OrderBy(x => x.Name).Paginate(filterProductsViewModel.PaginationViewModel)
                 .ToListAsync();
             return _mapper.Map<List<ProductViewModel>>(products);
@@ -94,7 +96,7 @@ namespace OnlineShop.Controllers
         {
 
             var queryable = _context.Products.AsQueryable();
-            await HttpContext.InsertParamtersPanginationInHeader(queryable);
+            await HttpContext.InsertParametersPaginationInHeader(queryable);
             var products = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
             return _mapper.Map<List<ProductViewModel>>(products);
         }

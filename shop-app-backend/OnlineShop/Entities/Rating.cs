@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
-using OnlineShop.Entities;
 
 namespace ShopPortal.Entities
 {

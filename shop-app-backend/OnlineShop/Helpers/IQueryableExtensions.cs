@@ -1,6 +1,6 @@
-﻿using OnlineShop.DTO;
+﻿using ViewModels.Pagination;
 
-namespace OnlineShop.Helpers
+namespace ShopPortal.Helpers
 {
     public static class IQueryableExtensions
     {
