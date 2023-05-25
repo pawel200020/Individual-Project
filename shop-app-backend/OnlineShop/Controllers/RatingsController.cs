@@ -8,6 +8,9 @@ using ViewModels.Rating;
 
 namespace ShopPortal.Controllers
 {
+    /// <summary>
+    /// Controller responsible for ratings related with product
+    /// </summary>
     [ApiController]
     [Route("api/ratings")]
     public class RatingsController : ControllerBase
@@ -15,12 +18,17 @@ namespace ShopPortal.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
+        /// <inheritdoc />
         public RatingsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context ?? throw new NullReferenceException(nameof(context));
             _userManager = userManager ?? throw new NullReferenceException(nameof(userManager));
         }
 
+        /// <summary>
+        /// Insert Rating
+        /// </summary>
+        /// <param name="rating"></param>
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Post([FromBody] RatingViewModel rating)

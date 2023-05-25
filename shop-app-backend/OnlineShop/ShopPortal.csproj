@@ -28,5 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
+  <PropertyGroup>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
 </Project>

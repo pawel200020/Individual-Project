@@ -10,6 +10,9 @@ using ViewModels.Shop.Categories;
 
 namespace ShopPortal.Controllers
 {
+    /// <summary>
+    /// Controller for product categories management, all endpoints need you to be logged in
+    /// </summary>
     [Route("api/categories")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -19,6 +22,7 @@ namespace ShopPortal.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
+        /// <inheritdoc />
         public CategoriesController(ILogger<CategoriesController> logger, ApplicationDbContext applicationDbContext, IMapper mapper)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -26,6 +30,11 @@ namespace ShopPortal.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// Get categories with pagination
+        /// </summary>
+        /// <param name="paginationViewModel"></param>
+        /// <returns>page with derived numbers of categories</returns>
         [HttpGet]
         [Authorize(Policy = "Admin")]
         public async Task<ActionResult<List<CategoryViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
@@ -38,6 +47,10 @@ namespace ShopPortal.Controllers
             return _mapper.Map<List<CategoryViewModel>>(categories);
         }
 
+        /// <summary>
+        /// Get all categories without pagination
+        /// </summary>
+        /// <returns>list of all categories</returns>
         [HttpGet("all")]
         [AllowAnonymous]
         public async Task<ActionResult<List<CategoryViewModel>>> Get()
@@ -48,11 +61,16 @@ namespace ShopPortal.Controllers
         }
 
 
-        [HttpGet("{Id:int}")]
+        /// <summary>
+        /// Get category by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>found category or nothing when not exists</returns>
+        [HttpGet("{id:int}")]
         [AllowAnonymous]
-        public async Task<ActionResult<CategoryViewModel>> Get(int Id)
+        public async Task<ActionResult<CategoryViewModel>> Get(int id)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == Id);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category == null)
                 return NotFound();
             else
@@ -61,6 +79,10 @@ namespace ShopPortal.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a category to add into database
+        /// </summary>
+        /// <param name="categoryCretationViewModel"></param>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CategoryCreationViewModel categoryCretationViewModel)
         {
@@ -70,6 +92,11 @@ namespace ShopPortal.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Edit a category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categoryViewModel"></param>
         [HttpPut("{Id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] CategoryCreationViewModel categoryViewModel)
         {
@@ -81,6 +108,10 @@ namespace ShopPortal.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Remove a category
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{Id:int}")]
         public async Task<ActionResult> Delete(int id)
         {

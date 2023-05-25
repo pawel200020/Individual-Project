@@ -15,6 +15,9 @@ using ViewModels.Shop.Products;
 
 namespace ShopPortal.Controllers
 {
+    /// <summary>
+    /// Controller responsible for products in a shop
+    /// </summary>
     [Route("api/products")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -26,6 +29,7 @@ namespace ShopPortal.Controllers
         private readonly IFileStorageService _fileStorageService;
         private readonly string _containerName = "products";
 
+        /// <inheritdoc />
         public ProductsController(ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService, UserManager<IdentityUser> userManager)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -34,6 +38,11 @@ namespace ShopPortal.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// search product by name
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>found product</returns>
         [HttpGet("searchByName/{query}")]
         public async Task<ActionResult<List<ProductsOrdersViewModel>>> SearchByName(string query)
         {
@@ -51,16 +60,24 @@ namespace ShopPortal.Controllers
                 .ToListAsync();
         }
 
-
+        /// <summary>
+        /// Get list of categories to create a new product
+        /// </summary>
+        /// <returns> new product with possible categories</returns>
         [HttpGet("PostGet")]
         public async Task<ActionResult<ProductPostGetViewModel>> PostGet()
         {
             var categories = await _context.Categories.ToListAsync();
-            var categoriesDTO = _mapper.Map<List<CategoryViewModel>>(categories);
+            var categoriesDto = _mapper.Map<List<CategoryViewModel>>(categories);
 
-            return new ProductPostGetViewModel() { Categories = categoriesDTO };
+            return new ProductPostGetViewModel() { Categories = categoriesDto };
         }
 
+        /// <summary>
+        /// Filter products by search criteria
+        /// </summary>
+        /// <param name="filterProductsViewModel"></param>
+        /// <returns>list of filtered products</returns>
         [HttpGet("filter")]
         [AllowAnonymous]
         public async Task<ActionResult<List<ProductViewModel>>> Filter([FromQuery] FilterProductsViewModel filterProductsViewModel)
@@ -89,6 +106,11 @@ namespace ShopPortal.Controllers
             return _mapper.Map<List<ProductViewModel>>(products);
         }
 
+        /// <summary>
+        /// Get list of products with pagination
+        /// </summary>
+        /// <param name="paginationViewModel"></param>
+        /// <returns>list of products</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<List<ProductViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
@@ -99,6 +121,12 @@ namespace ShopPortal.Controllers
             var products = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
             return _mapper.Map<List<ProductViewModel>>(products);
         }
+
+        /// <summary>
+        /// Get a product by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>found product</returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<ProductViewModel>> Get(int id)
@@ -136,6 +164,10 @@ namespace ShopPortal.Controllers
             return productModel;
         }
 
+        /// <summary>
+        /// Add a new product
+        /// </summary>
+        /// <param name="productCreationViewModel"></param>
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] ProductCreationViewModel productCreationViewModel)
         {
@@ -148,6 +180,13 @@ namespace ShopPortal.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        /// <summary>
+        /// Get product to edit
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>product to edit</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         [HttpGet("putget/{id:int}")]
         [AllowAnonymous]
         public async Task<ActionResult<ProductPutGetViewModel>> PutGet(int id)
@@ -167,6 +206,12 @@ namespace ShopPortal.Controllers
                 SelectedCategories = _mapper.Map<List<CategoryViewModel>>(await _context.Categories.Where(x => categoriesSelectedIds.Contains(x.Id)).ToListAsync())
             };
         }
+
+        /// <summary>
+        /// Insert edited product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="productCreationViewModel"></param>
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromForm] ProductCreationViewModel productCreationViewModel)
         {
@@ -193,6 +238,10 @@ namespace ShopPortal.Controllers
 
 
         }
+        /// <summary>
+        /// Delete product with selected ID
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {

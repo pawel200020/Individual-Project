@@ -8,6 +8,9 @@ using ViewModels.Shop.Orders;
 
 namespace ShopPortal.Controllers
 {
+    /// <summary>
+    /// Controller responsible for order management in shop
+    /// </summary>
     [Route("api/orders")]
     [ApiController]
     public class OrdersController : ControllerBase
@@ -15,12 +18,18 @@ namespace ShopPortal.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
+        /// <inheritdoc />
         public OrdersController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a page with orders
+        /// </summary>
+        /// <param name="paginationViewModel"></param>
+        /// <returns>list with derived number of orders</returns>
         [HttpGet]
         public async Task<ActionResult<List<OrderViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
@@ -30,6 +39,12 @@ namespace ShopPortal.Controllers
             var orders = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
             return _mapper.Map<List<OrderViewModel>>(orders);
         }
+
+        /// <summary>
+        /// Get order by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>order with selected ID</returns>
         [HttpGet("{id:int}")]
         public async Task<ActionResult<OrderViewModel>> Get(int id)
         {
@@ -40,6 +55,10 @@ namespace ShopPortal.Controllers
             return _mapper.Map<OrderViewModel>(order);
         }
 
+        /// <summary>
+        /// Add new order into database
+        /// </summary>
+        /// <param name="orderCreationViewModel"></param>
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromForm] OrderCreationViewModel orderCreationViewModel)
         {
@@ -49,6 +68,12 @@ namespace ShopPortal.Controllers
             await _context.SaveChangesAsync();
             return order.Id;
         }
+
+        /// <summary>
+        /// Delete order with derived ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {

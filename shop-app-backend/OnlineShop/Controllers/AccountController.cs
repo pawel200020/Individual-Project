@@ -3,19 +3,24 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using ViewModels.Accounts;
 
 namespace ShopPortal.Controllers
 {
+    /// <summary>
+    /// sample comment
+    /// </summary>
     [ApiController]
     [Route("api/accounts")]
+
     public class AccountController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _config;
+
+        /// <inheritdoc />
         public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration config)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -23,6 +28,11 @@ namespace ShopPortal.Controllers
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
+        /// <summary>
+        /// Create an account
+        /// </summary>
+        /// <param name="userCredentials"></param>
+        /// <returns>User token valid 1 day</returns>
         [HttpPost("create")]
         public async Task<ActionResult<AuthenticationResponse>> Create([FromBody] UserCredentials userCredentials)
         {
@@ -35,6 +45,11 @@ namespace ShopPortal.Controllers
             return BadRequest(result.Errors.Select(x=>x.Description));
         }
 
+        /// <summary>
+        /// Login to an exisiting account
+        /// </summary>
+        /// <param name="userCredentials"></param>
+        /// <returns>User token valid 1 day</returns>
         [HttpPost("login")]
         public async Task<ActionResult<AuthenticationResponse>> Login([FromBody] UserCredentials userCredentials)
         {
