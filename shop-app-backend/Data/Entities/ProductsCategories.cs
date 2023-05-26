@@ -1,4 +1,4 @@
-﻿namespace ShopPortal.Entities
+﻿namespace Data.Entities
 {
     public class ProductsCategories
     {

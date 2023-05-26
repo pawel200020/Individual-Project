@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace ShopPortal.Entities
+namespace Data.Entities
 {
     public class Rating
     {

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Data;
+using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ShopPortal.Entities;
 using ShopPortal.Helpers;
 using ViewModels.Pagination;
 using ViewModels.Shop.Orders;

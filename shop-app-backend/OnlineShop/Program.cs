@@ -2,11 +2,13 @@ using System;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ShopCore;
 using ShopPortal;
 using ShopPortal.APIBehavior;
 using ShopPortal.Filters;
@@ -87,6 +89,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddShopCore();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>

@@ -13,5 +13,11 @@ namespace ShopPortal.Helpers
             double count = await queryable.CountAsync();
             httpContext.Response.Headers.Add("totalAmountOfRecords",count.ToString(CultureInfo.InvariantCulture));
         }
+        public static void InsertParametersPaginationInHeader(this HttpContext httpContext, int count)
+        {
+            if (httpContext == null) { throw new ArgumentNullException(nameof(httpContext)); }
+
+            httpContext.Response.Headers.Add("totalAmountOfRecords", count.ToString(CultureInfo.InvariantCulture));
+        }
     }
 }

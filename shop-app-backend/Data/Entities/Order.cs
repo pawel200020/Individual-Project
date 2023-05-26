@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ShopPortal.Validation;
+using Data.Validation;
 
-namespace ShopPortal.Entities
+
+namespace Data.Entities
 {
     public class Order
     {

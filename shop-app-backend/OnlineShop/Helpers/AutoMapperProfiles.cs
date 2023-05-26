@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using ShopPortal.Entities;
+using Data.Entities;
+using ViewModels.Pagination;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Orders;
 using ViewModels.Shop.Products;
@@ -12,6 +13,8 @@ namespace ShopPortal.Helpers
         {
             CreateMap<CategoryViewModel, Category>().ReverseMap();
             CreateMap<CategoryCreationViewModel, Category>();
+
+            CreateMap<PaginationModel, PaginationViewModel>().ReverseMap();
 
             CreateMap<OrderViewModel, Order>().ReverseMap();
             CreateMap<OrderCreationViewModel, Order>()

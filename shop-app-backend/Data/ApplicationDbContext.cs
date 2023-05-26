@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using ShopPortal.Entities;
+using Microsoft.Extensions.Configuration;
 
-namespace ShopPortal
+namespace Data
 {
     public class ApplicationDbContext :IdentityDbContext
     {
@@ -41,5 +42,6 @@ namespace ShopPortal
         public DbSet<OrdersProducts> OrdersProducts { get; set; }
         public DbSet<ProductsCategories> ProductsCategories { get; set; }
         public DbSet<Rating> Rating { get; set; }
+        public DbSet<ApplicationParameter> ApplicationParameters { get; set; }
     }
 }
