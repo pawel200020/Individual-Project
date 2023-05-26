@@ -1,4 +1,4 @@
-﻿using ViewModels.Accounts;
+﻿using Data.Entities;
 
 namespace ShopPortal.Helpers
 {

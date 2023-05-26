@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels.Accounts
+namespace Data.Entities
 {
     public class UserCredentials
     {
-        [Required] 
-        [EmailAddress] 
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = null!;
 
         [Required]

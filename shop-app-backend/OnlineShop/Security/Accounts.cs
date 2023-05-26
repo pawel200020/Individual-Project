@@ -5,10 +5,11 @@ using System.Security.Claims;
 using System.Text;
 using ShopPortal.Helpers;
 using ViewModels.Accounts;
+using Data.Entities;
 
 namespace ShopPortal.Security
 {
-    public class Accounts
+    public class Accounts : IAccounts
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -41,13 +42,13 @@ namespace ShopPortal.Security
             return new AuthenticationResponseResult(){Errors = new[]{"Incorrect user login or password, please try again."}};
         }
 
-        private async Task<AuthenticationResponse> BuildToken(UserCredentials userCredentials)
+        private async Task<AuthenticationResponse> BuildToken(UserCredentials userCredentialsViewModel)
         {
             var claims = new List<Claim>()
             {
-                new ("email", userCredentials.Email)
+                new ("email", userCredentialsViewModel.Email)
             };
-            var user = await _userManager.FindByNameAsync(userCredentials.Email);
+            var user = await _userManager.FindByNameAsync(userCredentialsViewModel.Email);
             var claimsDB = await _userManager.GetClaimsAsync(user);
 
             claims.AddRange(claimsDB);

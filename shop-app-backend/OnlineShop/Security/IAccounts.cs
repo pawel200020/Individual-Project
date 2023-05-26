@@ -1,4 +1,5 @@
-﻿using ShopPortal.Helpers;
+﻿using Data.Entities;
+using ShopPortal.Helpers;
 using ViewModels.Accounts;
 
 namespace ShopPortal.Security;
