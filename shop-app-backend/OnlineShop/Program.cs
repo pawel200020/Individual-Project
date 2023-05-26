@@ -13,6 +13,8 @@ using ShopPortal;
 using ShopPortal.APIBehavior;
 using ShopPortal.Filters;
 using ShopPortal.Helpers;
+using ShopPortal.Security;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -89,6 +91,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddScoped<IAccounts, Accounts>();
 builder.Services.AddShopCore();
 builder.Services.AddHttpContextAccessor();
 
