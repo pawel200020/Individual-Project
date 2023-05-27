@@ -21,11 +21,13 @@ namespace ShopPortal.Controllers
     {
         private readonly IMapper _mapper;
         private readonly Categories _categories;
+        private readonly ILogger<CategoriesController> _logger;
         /// <inheritdoc />
-        public CategoriesController(IMapper mapper, Categories categories)
+        public CategoriesController(IMapper mapper, Categories categories, ILogger<CategoriesController> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _categories = categories ?? throw new ArgumentNullException(nameof(categories));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -34,12 +36,11 @@ namespace ShopPortal.Controllers
         /// <param name="paginationViewModel"></param>
         /// <returns>page with derived numbers of categories</returns>
         [HttpGet]
-       
-        public async Task<ActionResult<List<CategoryViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
+        public async Task<ActionResult<CategoryViewModel[]>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
-            var categories = await _categories.GetAllCategoriesPaged(_mapper.Map<PaginationModel>(paginationViewModel));
-            HttpContext.InsertParametersPaginationInHeader(categories.Count);
-            return _mapper.Map<List<CategoryViewModel>>(categories);
+            var (categories, quantity) = await _categories.GetAllCategoriesPaged(_mapper.Map<PaginationModel>(paginationViewModel));
+            HttpContext.InsertParametersPaginationInHeader(quantity);
+            return _mapper.Map<CategoryViewModel[]>(categories);
         }
 
         /// <summary>
@@ -87,10 +88,15 @@ namespace ShopPortal.Controllers
         [HttpPut("{Id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] CategoryCreationViewModel categoryViewModel)
         {
-            var result = await _categories.Edit(id, _mapper.Map<Category>(categoryViewModel));
-            if (!result)
+            try
+            {
+               await _categories.Edit(id, _mapper.Map<Category>(categoryViewModel));
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex.Message);
                 return NotFound();
-
+            }
             return NoContent();
         }
 
@@ -101,10 +107,15 @@ namespace ShopPortal.Controllers
         [HttpDelete("{Id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await _categories.Delete(id);
-            if (!result)
+            try
+            {
+                await _categories.Delete(id);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex.Message);
                 return NotFound();
-
+            }
             return NoContent();
         }
     }

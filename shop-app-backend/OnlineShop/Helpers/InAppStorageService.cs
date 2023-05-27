@@ -1,6 +1,6 @@
 ﻿namespace ShopPortal.Helpers
 {
-    public class InAppStorageService : IFileStorageService
+    public class InAppStorageService : IFileStorageService, ShopCore.Helpers.IFileStorageService
     {
         private readonly IWebHostEnvironment _env;
         private readonly IHttpContextAccessor _httpContextAccessor;

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Data.Validation;
+using Microsoft.AspNetCore.Http;
 
 namespace Data.Entities
 {
@@ -21,6 +23,13 @@ namespace Data.Entities
         public DateTime ManufactureDate { get; set; }
         public string? Picture { get; set; }
         public string? Caption { get; set; }
-        public List<ProductsCategories>? ProductsCategories { get; set; }
+        public List<ProductsCategories> ProductsCategories { get; set; } = null!;
+        [NotMapped]
+        public double AverageVote { get; set; }
+        [NotMapped]
+        public int UserVote { get; set; }
+        [NotMapped]
+        public IFormFile? PictureFile { get; set; }
+
     }
 }

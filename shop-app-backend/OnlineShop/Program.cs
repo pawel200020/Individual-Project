@@ -88,9 +88,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddScoped<ShopCore.Helpers.IFileStorageService, InAppStorageService>();
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IAccounts, Accounts>();
 builder.Services.AddShopCore();
 builder.Services.AddHttpContextAccessor();

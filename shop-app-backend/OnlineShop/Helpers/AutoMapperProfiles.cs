@@ -18,6 +18,12 @@ namespace ShopPortal.Helpers
             CreateMap<PaginationModel, PaginationViewModel>().ReverseMap();
             CreateMap<UserCredentialsViewModel, UserCredentials>().ReverseMap();
             CreateMap<AuthenticationResponseViewModel,AuthenticationResponse>().ReverseMap();
+            CreateMap<ProductsOrdersViewModel, ProductsOrders>().ReverseMap();
+            CreateMap<FilterProducts,FilterProductsViewModel>()
+                .ForMember(x => x.PaginationViewModel, y=> y.MapFrom(z=>z.PaginationModel));
+            CreateMap<FilterProductsViewModel, FilterProducts>()
+                .ForMember(x => x.PaginationModel, y => y.MapFrom(z => z.PaginationViewModel));
+            CreateMap<ProductPutGet,ProductPutGetViewModel>().ReverseMap();
 
             CreateMap<OrderViewModel, Order>().ReverseMap();
             CreateMap<OrderCreationViewModel, Order>()
@@ -26,6 +32,7 @@ namespace ShopPortal.Helpers
             CreateMap<ProductViewModel, Product>().ReverseMap();
             CreateMap<ProductCreationViewModel, Product>()
                 .ForMember(x => x.Picture, options => options.Ignore())
+                .ForMember(x=>x.PictureFile, options=>options.MapFrom(z=>z.Picture))
                 .ForMember(x => x.ProductsCategories, options => options.MapFrom(MapProductCategories));
 
             CreateMap<Product, ProductViewModel>()
