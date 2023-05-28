@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Data.Entities;
+using ShopCore;
 using ViewModels.Accounts;
 using ViewModels.Pagination;
+using ViewModels.Rating;
 using ViewModels.Shop.Categories;
 using ViewModels.Shop.Orders;
 using ViewModels.Shop.Products;
@@ -24,6 +26,8 @@ namespace ShopPortal.Helpers
             CreateMap<FilterProductsViewModel, FilterProducts>()
                 .ForMember(x => x.PaginationModel, y => y.MapFrom(z => z.PaginationViewModel));
             CreateMap<ProductPutGet,ProductPutGetViewModel>().ReverseMap();
+            CreateMap<RatingViewModel, Rating>().
+                ForMember(x => x.Rate, y => y.MapFrom(z => z.Rating));
 
             CreateMap<OrderViewModel, Order>().ReverseMap();
             CreateMap<OrderCreationViewModel, Order>()

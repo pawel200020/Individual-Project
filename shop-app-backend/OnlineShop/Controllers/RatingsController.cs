@@ -1,10 +1,9 @@
-﻿using Data;
+﻿using AutoMapper;
 using Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using ShopCore;
 using ViewModels.Rating;
 
 namespace ShopPortal.Controllers
@@ -16,14 +15,16 @@ namespace ShopPortal.Controllers
     [Route("api/ratings")]
     public class RatingsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly Ratings _ratings;
+        private readonly IMapper _mapper;
+        private readonly ILogger<RatingsController> _logger;
 
         /// <inheritdoc />
-        public RatingsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public RatingsController(Ratings ratings, IMapper mapper, ILogger<RatingsController> logger)
         {
-            _context = context ?? throw new NullReferenceException(nameof(context));
-            _userManager = userManager ?? throw new NullReferenceException(nameof(userManager));
+            _ratings = ratings ?? throw new ArgumentNullException(nameof(ratings));
+            _mapper = mapper ?? throw  new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -34,26 +35,17 @@ namespace ShopPortal.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Post([FromBody] RatingViewModel rating)
         {
-           
             var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-            var userId  = (await _userManager.FindByNameAsync(email)).Id;
-            var currentRate =  await _context.Rating.FirstOrDefaultAsync(x => x.ProductId == rating.ProductId && x.UserId == userId);
+            try
+            {
+                await _ratings.Vote(_mapper.Map<Rating>(rating), email);
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return NotFound();
+            }
 
-            if (currentRate == null)
-            {
-                var newRating = new Rating()
-                {
-                    ProductId = rating.ProductId,
-                    Rate = rating.Rating,
-                    UserId = userId,
-                };
-                _context.Add(newRating);
-            }
-            else
-            {
-                currentRate.Rate = rating.Rating;
-            }
-            await _context.SaveChangesAsync();
             return NoContent();
         }
     }
