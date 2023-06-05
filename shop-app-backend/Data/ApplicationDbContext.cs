@@ -9,7 +9,11 @@ namespace Data
 {
     public class ApplicationDbContext :IdentityDbContext
     {
-        public ApplicationDbContext([NotNull] DbContextOptions options) : base(options)
+        public ApplicationDbContext() : base()
+        {
+
+        }
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
             
         }
@@ -23,7 +27,7 @@ namespace Data
                     .AddJsonFile("appsettings.Development.json")
                     .Build();
                 var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException());
 
                 return new ApplicationDbContext(optionsBuilder.Options);
             }
@@ -36,12 +40,12 @@ namespace Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<OrdersProducts> OrdersProducts { get; set; }
-        public DbSet<ProductsCategories> ProductsCategories { get; set; }
-        public DbSet<Rating> Rating { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<OrdersProducts> OrdersProducts { get; set; }
+        public virtual DbSet<ProductsCategories> ProductsCategories { get; set; }
+        public virtual DbSet<Rating> Rating { get; set; }
         public DbSet<ApplicationParameter> ApplicationParameters { get; set; }
     }
 }
