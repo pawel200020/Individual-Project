@@ -1,6 +1,6 @@
-﻿namespace ViewModels.Pagination
+﻿namespace Data.Entities
 {
-    public class PaginationViewModel
+    public class PaginationModel
     {
         public int Page { get; set; } = 1;
         private int _recordsPerPage = 10;

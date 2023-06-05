@@ -2,15 +2,19 @@ using System;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ShopCore;
 using ShopPortal;
 using ShopPortal.APIBehavior;
 using ShopPortal.Filters;
 using ShopPortal.Helpers;
+using ShopPortal.Security;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -84,9 +88,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IFileStorageService, InAppStorageService>();
+builder.Services.AddScoped<ShopCore.Helpers.IFileStorageService, InAppStorageService>();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IAccounts, Accounts>();
+builder.Services.AddShopCore();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>

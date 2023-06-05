@@ -4,6 +4,6 @@ namespace ViewModels.Shop.Products
 {
     public class ProductPostGetViewModel
     {
-        public List<CategoryViewModel>? Categories { get; set; }
+        public CategoryViewModel[] ? Categories { get; set; }
     }
 }

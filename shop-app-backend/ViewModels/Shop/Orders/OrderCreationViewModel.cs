@@ -13,6 +13,7 @@ namespace ViewModels.Shop.Orders
         public string Name { get; set; } = null!;
         public double Value { get; set; }
         [ModelBinder(BinderType = typeof(TypeBinder<List<OrdersProductsCreationViewModel>>))]
+        [Required(ErrorMessage = "Order cannot be empty")]
         public List<OrdersProductsCreationViewModel>? OrdersProducts { get; set; }
     }
 }
