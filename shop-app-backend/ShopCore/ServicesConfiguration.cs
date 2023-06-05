@@ -9,6 +9,7 @@ namespace ShopCore
             services.AddScoped<Categories>();
             services.AddScoped<Products>();
             services.AddScoped<Ratings>();
+            services.AddScoped<Orders>();
         }
     }
 }

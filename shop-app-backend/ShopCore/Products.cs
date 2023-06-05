@@ -142,7 +142,8 @@ namespace ShopCore
         public async Task Save(int id, Product editedProduct)
         {
             var product = await _context.Products
-                .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
+                .Include(x => x.ProductsCategories)
+                .ThenInclude(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (product is null)

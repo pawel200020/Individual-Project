@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopPortal", "OnlineShop\Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "ViewModels\ViewModels.csproj", "{A121E9AA-07AF-4FA1-9A07-0997D9E3768A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{585D9CC1-5D6C-444A-9CDF-D40909DCFF96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{585D9CC1-5D6C-444A-9CDF-D40909DCFF96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopCore", "ShopCore\ShopCore.csproj", "{F3309225-9EB0-4491-B479-92BE1A68272E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopCore", "ShopCore\ShopCore.csproj", "{F3309225-9EB0-4491-B479-92BE1A68272E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3FFA33E5-D1D7-49A0-ACA3-3D7638D3CDD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Data;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using ShopCore;
 using ShopPortal.Helpers;
 using ViewModels.Pagination;
 using ViewModels.Shop.Orders;
@@ -16,14 +15,16 @@ namespace ShopPortal.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Orders _orders;
         private readonly IMapper _mapper;
+        private readonly ILogger<OrdersController> _logger;
 
         /// <inheritdoc />
-        public OrdersController(ApplicationDbContext context, IMapper mapper)
+        public OrdersController(IMapper mapper, Orders orders, ILogger<OrdersController> logger)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _orders = orders ?? throw new ArgumentNullException(nameof(orders));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -32,13 +33,11 @@ namespace ShopPortal.Controllers
         /// <param name="paginationViewModel"></param>
         /// <returns>list with derived number of orders</returns>
         [HttpGet]
-        public async Task<ActionResult<List<OrderViewModel>>> Get([FromQuery] PaginationViewModel paginationViewModel)
+        public async Task<ActionResult<OrderViewModel[]>> Get([FromQuery] PaginationViewModel paginationViewModel)
         {
-
-            var queryable = _context.Orders.AsQueryable();
-            await HttpContext.InsertParametersPaginationInHeader(queryable);
-            var orders = await queryable.OrderBy(x => x.Name).Paginate(paginationViewModel).ToListAsync();
-            return _mapper.Map<List<OrderViewModel>>(orders);
+            var( orders, quantity) = await _orders.GetAll(_mapper.Map<PaginationModel>(paginationViewModel));
+            HttpContext.InsertParametersPaginationInHeader(quantity);
+            return _mapper.Map<OrderViewModel[]>(orders);
         }
 
         /// <summary>
@@ -49,11 +48,16 @@ namespace ShopPortal.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<OrderViewModel>> Get(int id)
         {
-            var order = await _context.Orders
-                .Include(x=>x.OrdersProducts).ThenInclude(x=>x.Product)
-                .FirstOrDefaultAsync(x => x.Id == id);
-            if (order == null) return NotFound();
-            return _mapper.Map<OrderViewModel>(order);
+            try
+            {
+                var order = await _orders.GetById(id);
+                return _mapper.Map<OrderViewModel>(order);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -63,11 +67,23 @@ namespace ShopPortal.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromForm] OrderCreationViewModel orderCreationViewModel)
         {
-            var order = _mapper.Map<Order>(orderCreationViewModel);
-            order.Value = await CountOrderValue(order.OrdersProducts);
-            _context.Add(order);
-            await _context.SaveChangesAsync();
-            return order.Id;
+
+            try
+            {
+                var createdOrderId = await _orders.AddOrder(_mapper.Map<Order>(orderCreationViewModel));
+                return createdOrderId;
+            }
+            catch(InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return BadRequest(new object []{ex.Message});
+            }
+            
+            //var order = _mapper.Map<Order>(orderCreationViewModel);
+            //order.Value = await CountOrderValue(order.OrdersProducts);
+            //_context.Add(order);
+            //await _context.SaveChangesAsync();
+            //return order.Id;
         }
 
         /// <summary>
@@ -78,29 +94,16 @@ namespace ShopPortal.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
-            if (order == null) return NotFound();
-            _context.Remove(order);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        private async Task<double> CountOrderValue(List<OrdersProducts> products)
-        {
-            double price = 0;
-            if(products == null) return price;
-            foreach (var product in products)
+            try
             {
-                var founded = await _context.Products
-                    .Include(x => x.ProductsCategories).ThenInclude(x => x.Category)
-                    .FirstOrDefaultAsync(x => x.Id == product.ProductId);
-                if (founded != null)
-                {
-                    price += product.Quantity * founded.Price;
-                }
+                await _orders.Delete(id);
+                return NoContent();
             }
-            return price;
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return BadRequest(new object[] { ex.Message });
+            }
         }
-
     }
 }

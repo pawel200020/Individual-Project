@@ -16,6 +16,7 @@ export default function CreateOrder() {
     const [errors, setErrors] = useState<string[]>([]);
     async function create(order: orderCreationDTO){
         try{
+            setErrors([]);
             console.log(order);
             const formData = convertOrderToFormData(order)
             const response = await axios({

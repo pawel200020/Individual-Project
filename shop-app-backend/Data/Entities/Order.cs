@@ -12,6 +12,6 @@ namespace Data.Entities
         [FirstLetterUppercase]
         public string Name { get; set; } = null!;
         public double Value { get; set; }
-        public List<OrdersProducts>? OrdersProducts { get; set; }
+        public List<OrdersProducts> OrdersProducts { get; set; } = null!;
     }
 }
