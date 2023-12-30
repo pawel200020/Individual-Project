@@ -78,12 +78,6 @@ namespace ShopPortal.Controllers
                 _logger.LogWarning(ex.Message);
                 return BadRequest(new object []{ex.Message});
             }
-            
-            //var order = _mapper.Map<Order>(orderCreationViewModel);
-            //order.Value = await CountOrderValue(order.OrdersProducts);
-            //_context.Add(order);
-            //await _context.SaveChangesAsync();
-            //return order.Id;
         }
 
         /// <summary>

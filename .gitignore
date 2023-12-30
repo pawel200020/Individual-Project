@@ -402,3 +402,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /shop-app-backend/OnlineShop/wwwroot/products
+/shop-app-backend/OnlineShop/appsettings.Development.json

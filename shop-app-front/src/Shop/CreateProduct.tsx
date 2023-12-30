@@ -1,6 +1,5 @@
 import ProductForm from "./ProductForm";
 import {categoryDTO} from "../Categories/Category.model.t";
-import {DomUtil} from "leaflet";
 import {ProductCreationDTO, productsPostGetDTO} from "./Products.model";
 import {useEffect, useState} from "react";
 import DisplayErrors from "../utils/DisplayError";
