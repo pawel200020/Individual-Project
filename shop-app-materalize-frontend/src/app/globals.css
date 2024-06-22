@@ -31,3 +31,24 @@ body {
     text-wrap: balance;
   }
 }
+
+
+
+.centered_layout{
+  position: static;
+  inset: 0;
+  overflow: auto;
+
+  display: grid;
+  place-items: center;
+}
+.footer{
+  position:fixed;
+  left:0;
+  bottom:0;
+  right:0;
+}
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}

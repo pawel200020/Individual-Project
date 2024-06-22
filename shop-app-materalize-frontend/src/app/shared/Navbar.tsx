@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ThemeSwitcher from "@/app/shared/ThemeSwitcher";
 
 export function Navbar(){
     return(<>
@@ -29,7 +30,7 @@ export function Navbar(){
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a>Item 1</a></li>
+                    <li><Link href={"/"}>Item 1</Link></li>
                     <li>
                         <details>
                             <summary>Parent</summary>
@@ -42,8 +43,15 @@ export function Navbar(){
                     <li><a>Item 3</a></li>
                 </ul>
             </div>
+
             <div className="navbar-end">
-                <Link className="btn" href={"/login/"}>Login</Link>
+                <ThemeSwitcher/>
+                <div className="flex-none">
+                    <ul className="menu menu-horizontal px-1">
+                        <li><Link href={"/login/"}>Login</Link></li>
+                        <li><Link href={"/login/"}>Register</Link></li>
+                    </ul>
+                </div>
             </div>
             {/*<div className="navbar-end">*/}
             {/*    <div className="dropdown dropdown-end">*/}
