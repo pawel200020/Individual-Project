@@ -75,6 +75,5 @@ export default function MainPage(){
 
         afa<br/>
         afa<br/>
-
     </section>)
 }
