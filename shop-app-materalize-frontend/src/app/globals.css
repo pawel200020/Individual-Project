@@ -27,7 +27,7 @@ body {
   position: relative;
   min-height: 100vh;
   padding-top: 70px;
-  padding-bottom: 12rem;
+  padding-bottom: 7rem;
   display: flex;
   flex-direction: column;
   flex-wrap  : wrap;
