@@ -1,9 +1,13 @@
+"use client";
 import Link from 'next/link';
-import ThemeSwitcher from "@/app/shared/ThemeSwitcher";
+import ThemeSwitcher from "@/app/context/ThemeSwitcher";
+import {ThemeContext} from "@/app/context/ThemeContext";
+import {useContext} from "react";
 
 export function Navbar(){
+    const { changeTheme } = useContext(ThemeContext);
     return(<>
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-300">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex="0" role="button" className="btn btn-ghost lg:hidden">
@@ -45,7 +49,7 @@ export function Navbar(){
             </div>
 
             <div className="navbar-end">
-                <ThemeSwitcher/>
+                <ThemeSwitcher handleOnClick={changeTheme}/>
                 <div className="flex-none">
                     <ul className="menu menu-horizontal px-1">
                         <li><Link href={"/login/"}>Login</Link></li>
