@@ -31,7 +31,6 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  padding-top: 70px;
   padding-bottom: 6rem;
 }
 
@@ -43,22 +42,20 @@ body {
 }
 
 .centered_layout{
-  position: static;
+  position: absolute;
   inset: 0;
   overflow: auto;
-
+  box-sizing: border-box;
   display: grid;
   place-items: center;
 }
 .navbar{
-  position: fixed;
+  position: sticky;
   left:0;
   top:0;
   right:0;
 }
 .footer{
   position: absolute;
-  left:0;
   bottom:0;
-  right:0;
 }
